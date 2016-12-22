@@ -1,0 +1,7 @@
+
+# -- generated output:
+
+*.js.map
+*.spec.d.ts
+*.spec.js
+*.tgz

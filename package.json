@@ -1,0 +1,61 @@
+{
+  "name": "asyncctx",
+  "version": "0.0.1",
+  "description": "an asynchronous execution context for TypeScript/JavaScript",
+  "main": "dist/index.js",
+  "tags": [
+    "javascript",
+    "typescript",
+    "asynchronous context",
+    "execution context",
+    "cls",
+    "continuous local storage"
+  ],
+  "author": {
+    "email": "www.gms@gmx.at",
+    "name": "Guenter Sandner"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gms1/node-async-context.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gms1/node-async-context/issues"
+  },
+  "homepage": "https://github.com/gms1/node-async-context-orm",
+  "scripts": {
+    "clean": "gulp clean",
+    "build": "gulp build",
+    "rebuild": "gulp rebuild",
+    "watch": "gulp watch",
+    "tslint": "gulp tslint",
+    "test": "node spec/jasmine-runner.js",
+    "typedoc": "typedoc --mode modules --out docs/typedoc/async-context --tsconfig tsconfig.json --exclude '**/*.spec.ts' src/asyncctx"
+  },
+  "dependencies": {
+    "async-hook": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.5.38",
+    "@types/node": "^6.0.52",
+    "@types/reflect-metadata": "^0.0.5",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-batch": "^1.0.5",
+    "gulp-json-transform": "^0.4.2",
+    "gulp-sourcemaps": "^2.2.0",
+    "gulp-tslint": "^7.0.0",
+    "gulp-typescript": "^3.1.3",
+    "gulp-watch": "^4.3.11",
+    "jasmine": "^2.5.2",
+    "jasmine-spec-reporter": "^2.7.0",
+    "merge-stream": "^1.0.1",
+    "run-sequence": "^1.2.2",
+    "tslint": "^4.0.2",
+    "typescript": "^2.1.4"
+  },
+  "typescript": {
+    "definition": "./index.d.ts"
+  }
+}
