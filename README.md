@@ -33,7 +33,7 @@ cls.setRootContext({ value: 1});
 
 process.nextTick(() => {
   let curr1 = cls.getContext(); // value is 1
-  cls.setContext({ value: 2});  // value should be 1 in the current execution context and below
+  cls.setContext({ value: 2});  // value should be 2 in the current execution context and below
   process.nextTick(() => {
     let curr2 = cls.getContext(); // value is 2
     cls.setContext({ value: 3});  // value should be 3 in the current execution context and below

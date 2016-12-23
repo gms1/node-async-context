@@ -29,7 +29,7 @@ describe('testing readme sample', () => {
       debugUid('TICK 1.0.0 START');
       let curr1 = cls.getContext(); // value is 1
       expect(curr1 ? curr1.value : undefined).toBe(1);
-      cls.setContext({ value: 2});  // value should be 1 in the current execution context and below
+      cls.setContext({ value: 2});  // value should be 2 in the current execution context and below
       process.nextTick(() => {
         debugUid('TICK 1.1.0 START');
         let curr2 = cls.getContext(); // value is 2
