@@ -29,20 +29,23 @@ class MyLocalStorage {
 }
 
 let cls = new ContinuationLocalStorage<MyLocalStorage>();
+cls.setRootContext({ value: 1});
 
 process.nextTick(() => {
-  cls.setData({ value: 1}); // value should be 1 in the current execution context and below
+  let curr1 = cls.getContext(); // value is 1
+  cls.setContext({ value: 2});  // value should be 1 in the current execution context and below
   process.nextTick(() => {
-    let curr1 = cls.getData(); // value is 1
-    cls.setData({ value: 2}); // value should be 2 in the current execution context and below
+    let curr2 = cls.getContext(); // value is 2
+    cls.setContext({ value: 3});  // value should be 3 in the current execution context and below
     process.nextTick(() => {
-      let curr2 = cls.getData(); // value is 2
+      let curr3 = cls.getContext(); // value is 3
     });
   });
   process.nextTick(() => {
-    let curr3 = cls.getData(); // value is 1
+    let curr4 = cls.getContext(); // value is 2
   });
 });
+
 ```
 
 ## License
@@ -54,7 +57,7 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                                                            |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------|
-| 0.0.1-2   | initial version                                                                                                                  |
+| 0.0.1-3   | initial version                                                                                                                  |
 
 
 ## Downloads

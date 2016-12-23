@@ -9,7 +9,9 @@ type destroyFunc = (uid: number) => void;
 
 interface HookFuncs { init: initFunc; pre: preFunc; post: postFunc; destroy: destroyFunc; };
 
-const MAIN_UID = 0;
+let nodeproc: any = process;
+
+const ROOT_UID = 0;
 
 interface HookInfo<T> {
   uid: number;
@@ -41,16 +43,15 @@ export class ContinuationLocalStorage<T> {
   */
 
   private hooks: HookFuncs;
-  private process: any = process;
 
   /**
    * Creates an instance of ContinuationLocalStorage.
    *
    */
   public constructor() {
-    this._currUid = MAIN_UID;
+    this._currUid = ROOT_UID;
     this.uidHookMap = new Map<number, HookInfo<T>>();
-    this.uidHookMap.set(MAIN_UID, { uid: MAIN_UID, handle: undefined, provider: 0, previousUid: undefined, previousHook: undefined });
+    this.uidHookMap.set(ROOT_UID, { uid: ROOT_UID, handle: undefined, provider: 0, previousUid: undefined, previousHook: undefined });
     this.deleteOnPostHack = false;
     this.hooks = {
         init: (uid, handle, provider, parentUid, parentHandle) => {
@@ -61,10 +62,10 @@ export class ContinuationLocalStorage<T> {
         let previousHook = previousUid != undefined ? this.uidHookMap.get(previousUid) : undefined;
 
         this.uidHookMap.set(uid, { uid, handle, provider, previousUid, previousHook });
-        // this.debugUid('init', uid);
         if (previousUid && !previousHook) {
-          this.process._rawDebug(`init: WARNING: uid: ${previousUid} is not registered (3)`);
+          nodeproc._rawDebug(`init: WARNING: uid: ${previousUid} is not registered (3)`);
         }
+        // this.debugUid('init', uid);
       },
       pre: (uid) => {
         // an async handle starts
@@ -73,21 +74,23 @@ export class ContinuationLocalStorage<T> {
         if (hi) {
           hi.data = hi.previousHook ? hi.previousHook.data : undefined;
           if (!hi.previousHook) {
-            this.process._rawDebug(`pre : WARNING: uid: ${hi.previousUid} is not registered (2)`);
+            nodeproc._rawDebug(`pre : WARNING: uid: ${hi.previousUid} is not registered (2)`);
           }
         // } else {
         //   this.nodeproc._rawDebug(`pre : WARNING: uid: ${this._currUid} is not registered (1)`);
         }
+        // this.debugUid('pre', uid);
       },
       post: (uid, didThrow) => {
         // an async handle ends
         if (uid === this._currUid) {
-          this._currUid = MAIN_UID;
+          this._currUid = ROOT_UID;
           if (this.deleteOnPostHack) {
             this.uidHookMap.delete(uid);
             this.deleteOnPostHack = false;
           }
         }
+        // this.debugUid('post', uid);
       },
       destroy: (uid) => {
         // an async handle gets destroyed
@@ -107,34 +110,61 @@ export class ContinuationLocalStorage<T> {
   }
 
   /**
-   * Get the data stored on current execution context
+   * Get the current execution context data
    *
-   * @param {number} [uid=this.currUid]
    * @returns {(T|undefined)}
    */
-  public getData(uid: number = this.currUid): T|undefined {
-    let hi = this.uidHookMap.get(uid);
+  public getContext(): T|undefined {
+    let hi = this.uidHookMap.get(this.currUid);
     return hi ? hi.data : undefined;
   }
 
   /**
-   * Set the data to store on current execution context
+   * Set the current execution context data
    *
    * @param {T} value
-   * @param {number} [uid=this.currUid]
-   * @returns {(T|undefined)}
+   * @returns {(T)}
    */
-  public setData(value: T, uid: number = this.currUid): T|undefined {
-    let hi = this.uidHookMap.get(uid);
+  public setContext(value: T): T {
+    if (!this.currUid || this.currUid === ROOT_UID) {
+      throw new Error(`setContext must be called in an async context (${this.currUid})!`);
+    }
+    let hi = this.uidHookMap.get(this.currUid);
     if (!hi) {
-      if (!uid) {
-        throw new Error('setData must be called in an async context!');
-      }
-      return undefined;
+      throw new Error('setContext must be called in an async context (2)!');
     }
     hi.data = value;
     return value;
   }
+
+  /**
+   * Get the root execution context data
+   *
+   * @returns {(T|undefined)}
+   */
+  public getRootContext(): T|undefined {
+    let hi = this.uidHookMap.get(ROOT_UID);
+     if (!hi) {
+      throw new Error('internal error: root node not found (1)!');
+    }
+    return hi ? hi.data : undefined;
+  }
+
+  /**
+   * Set the current execution context data
+   *
+   * @param {T} value
+   * @returns {(T)}
+   */
+  public setRootContext(value: T): T {
+    let hi = this.uidHookMap.get(ROOT_UID);
+    if (!hi) {
+      throw new Error('internal error: root node not found (2)!');
+    }
+    hi.data = value;
+    return value;
+  }
+
 
   /**
    * Get the Uid of the caller (for debugging purpose)
@@ -168,10 +198,17 @@ export class ContinuationLocalStorage<T> {
           funcName = hi.handle.toString().trim().match(/^function\s*([^\s(]+)/)[1];
         }
       }
-      let data = hi.data ? hi.data.toString() : 'undefined';
-      this.process._rawDebug(`${prefix}: uid: ${uid}  previousUid: ${hi.previousUid} ${funcName} (${data})`);
+      let data: string = 'undefined';
+      if (hi.data) {
+        try {
+          data = JSON.stringify(hi.data);
+        } catch (_ignore) {
+          data = hi.data.toString();
+        }
+      }
+      nodeproc._rawDebug(`${prefix}: uid: ${uid}  previousUid: ${hi.previousUid} ${funcName} (${data})`);
     } else {
-      this.process._rawDebug(`${prefix}: uid: ${uid}`);
+      nodeproc._rawDebug(`${prefix}: uid: ${uid}`);
     }
   }
 
