@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/gms1/node-async-context/issues"
   },
-  "homepage": "https://github.com/gms1/node-async-context-orm",
+  "homepage": "https://github.com/gms1/node-async-context",
   "scripts": {
     "clean": "gulp clean",
     "build": "gulp build",
