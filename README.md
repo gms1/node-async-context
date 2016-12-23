@@ -3,7 +3,7 @@
 [![Dependency Status](https://david-dm.org/gms1/node-async-context.svg)](https://david-dm.org/gms1/node-async-context)
 [![devDependency Status](https://david-dm.org/gms1/node-async-context/dev-status.svg)](https://david-dm.org/gms1/node-async-context#info=devDependencies)
 
-# node-async-context
+# node-async-context (asyncctx)
 This module allows you to create a asynchronouse execution context for JavaScript or TypeScript
 
 > NOTE: This module is based on [async-hook](https://github.com/AndreasMadsen/async-hook), which in turn is based 
@@ -17,7 +17,7 @@ This is the reason why **async-hook** will show this warning on startup:
 
 ## Introduction
 
-To give you an idea of how **node-async-context** is supposed to be used:
+To give you an idea of how **asyncctx** is supposed to be used:
  
 
 ```TypeScript
@@ -47,7 +47,7 @@ process.nextTick(() => {
 
 ## License
 
-**node-async-context** is licensed under the MIT License:
+**node-async-context (asyncctx)** is licensed under the MIT License:
 [LICENSE](./LICENSE)
 
 ## Release Notes
