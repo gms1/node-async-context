@@ -52,6 +52,11 @@ const transformDefinition = [
     src: '.npmignore',
     base: '.',
     out: outDir
+  },
+  {
+    src: 'README.md',
+    base: '.',
+    out: outDir
   }
 ];
 
