@@ -31,15 +31,8 @@ interface HookInfo<T> {
 export class ContinuationLocalStorage<T> {
 
   private _currUid: number;
-  /**
-   *
-   *
-   * @readonly
-   * @type {number}
-   */
   public get currUid(): number { return this._currUid; }
 
-  private uidStack: Array<number>;
   private uidHookMap: Map<number, HookInfo<T>>;
 
   private deleteOnPostHack: boolean;
@@ -48,7 +41,7 @@ export class ContinuationLocalStorage<T> {
   */
 
   private hooks: HookFuncs;
-  private node_process: any = process;
+  private process: any = process;
 
   /**
    * Creates an instance of ContinuationLocalStorage.
@@ -56,7 +49,6 @@ export class ContinuationLocalStorage<T> {
    */
   public constructor() {
     this._currUid = MAIN_UID;
-    this.uidStack = [ MAIN_UID ];
     this.uidHookMap = new Map<number, HookInfo<T>>();
     this.uidHookMap.set(MAIN_UID, { uid: MAIN_UID, handle: undefined, provider: 0, previousUid: undefined, previousHook: undefined });
     this.deleteOnPostHack = false;
@@ -71,28 +63,26 @@ export class ContinuationLocalStorage<T> {
         this.uidHookMap.set(uid, { uid, handle, provider, previousUid, previousHook });
         // this.debugUid('init', uid);
         if (previousUid && !previousHook) {
-          this.node_process._rawDebug(`init: WARNING: uid: ${previousUid} is not registered (3)`);
+          this.process._rawDebug(`init: WARNING: uid: ${previousUid} is not registered (3)`);
         }
       },
       pre: (uid) => {
         // an async handle starts
         this._currUid = uid;
-        this.uidStack.push(this._currUid);
         let hi = this.uidHookMap.get(uid);
         if (hi) {
           hi.data = hi.previousHook ? hi.previousHook.data : undefined;
           if (!hi.previousHook) {
-            this.node_process._rawDebug(`pre : WARNING: uid: ${hi.previousUid} is not registered (2)`);
+            this.process._rawDebug(`pre : WARNING: uid: ${hi.previousUid} is not registered (2)`);
           }
         // } else {
-        //   this.node_process._rawDebug(`pre : WARNING: uid: ${this._currUid} is not registered (1)`);
+        //   this.nodeproc._rawDebug(`pre : WARNING: uid: ${this._currUid} is not registered (1)`);
         }
       },
       post: (uid, didThrow) => {
         // an async handle ends
-        if (uid === this.uidStack[this.uidStack.length - 1]) {
-          this.uidStack.pop();
-          this._currUid = this.uidStack[this.uidStack.length - 1];
+        if (uid === this._currUid) {
+          this._currUid = MAIN_UID;
           if (this.deleteOnPostHack) {
             this.uidHookMap.delete(uid);
             this.deleteOnPostHack = false;
@@ -179,9 +169,9 @@ export class ContinuationLocalStorage<T> {
         }
       }
       let data = hi.data ? hi.data.toString() : 'undefined';
-      this.node_process._rawDebug(`${prefix}: uid: ${uid}  previousUid: ${hi.previousUid} ${funcName} (${data})`);
+      this.process._rawDebug(`${prefix}: uid: ${uid}  previousUid: ${hi.previousUid} ${funcName} (${data})`);
     } else {
-      this.node_process._rawDebug(`${prefix}: uid: ${uid}`);
+      this.process._rawDebug(`${prefix}: uid: ${uid}`);
     }
   }
 
