@@ -32,7 +32,7 @@
     "tslint": "gulp tslint",
     "test": "node spec/jasmine-runner.js",
     "typedoc": "typedoc --mode modules --out docs/typedoc/async-context --tsconfig tsconfig.json --exclude '**/*.spec.ts' src/asyncctx",
-    "prepublish": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1"
+    "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1"
   },
   "dependencies": {
     "async-hook": "^1.6.2"
