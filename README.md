@@ -57,8 +57,8 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                                                            |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------|
-| 0.0.04    | recovery version fixed 'ERROR: No README data found!'                                                                            |
-| 0.0.01-03 | initial version                                                                                                                  |
+| 0.0.05    | async-hook 1.7.1                                                                                                                 |
+| 0.0.01-04 | initial version                                                                                                                  |
 
 ## Downloads
 
