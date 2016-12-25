@@ -35,7 +35,7 @@
     "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1"
   },
   "dependencies": {
-    "async-hook": "^1.6.2"
+    "async-hook": "^1.7.1"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.38",

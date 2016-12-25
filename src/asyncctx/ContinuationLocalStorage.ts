@@ -37,11 +37,6 @@ export class ContinuationLocalStorage<T> {
 
   private uidHookMap: Map<number, HookInfo<T>>;
 
-  private deleteOnPostHack: boolean;
-  /*
-    see related issue: https://github.com/AndreasMadsen/async-hook/issues/12
-  */
-
   private hooks: HookFuncs;
 
   /**
@@ -52,7 +47,6 @@ export class ContinuationLocalStorage<T> {
     this._currUid = ROOT_UID;
     this.uidHookMap = new Map<number, HookInfo<T>>();
     this.uidHookMap.set(ROOT_UID, { uid: ROOT_UID, handle: undefined, provider: 0, previousUid: undefined, previousHook: undefined });
-    this.deleteOnPostHack = false;
     this.hooks = {
         init: (uid, handle, provider, parentUid, parentHandle) => {
         // a new async handle gets initialized:
@@ -85,10 +79,6 @@ export class ContinuationLocalStorage<T> {
         // an async handle ends
         if (uid === this._currUid) {
           this._currUid = ROOT_UID;
-          if (this.deleteOnPostHack) {
-            this.uidHookMap.delete(uid);
-            this.deleteOnPostHack = false;
-          }
         }
         // this.debugUid('post', uid);
       },
@@ -97,11 +87,9 @@ export class ContinuationLocalStorage<T> {
         // this.debugUid('destroy', uid);
         if (this.uidHookMap.has(uid)) {
            if (uid === this._currUid) {
-             //
-             this.deleteOnPostHack = true;
-           } else {
-             this.uidHookMap.delete(uid);
+             nodeproc._rawDebug(`asyncctx: destroy hook called for current context (${this.currUid})!`);
            }
+           this.uidHookMap.delete(uid);
         }
       }
     };
