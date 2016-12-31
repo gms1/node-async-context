@@ -31,7 +31,7 @@
     "watch": "gulp watch",
     "tslint": "gulp tslint",
     "test": "node spec/jasmine-runner.js",
-    "typedoc": "typedoc --mode modules --out docs/typedoc/async-context --tsconfig tsconfig.json --exclude '**/*.spec.ts' src/asyncctx",
+    "typedoc": "typedoc --options typedoc.json --out docs/typedoc/async-context --exclude '**/*.spec.ts' src/asyncctx",
     "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1"
   },
   "dependencies": {

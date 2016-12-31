@@ -176,7 +176,7 @@ export class ContinuationLocalStorage<T> {
   public debugUid(prefix: string, uid: number = this.currUid): void {
     let hi = this.uidHookMap.get(uid);
     if (hi) {
-      let funcName;
+      let funcName: string | undefined;
       if (hi.handle) {
         if (hi.handle.constructor) {
           funcName = hi.handle.constructor.name;
