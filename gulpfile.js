@@ -13,12 +13,17 @@ const del = require('del');
 const merge = require('merge-stream');
 const runSequence = require('run-sequence');
 // ==================================================================================
+const packageJson = require('./package.json');
+const tsConfig = require('./tsconfig.json');
+// ==================================================================================
 // settings:
 
 const outDir = 'dist'; // keep it simple (for 'del' package)
-const tsconfig = 'tsconfig.json';
-const tslintconfig = 'tslint.json';
-const watching = ['src/**/*'];
+const tsConfigFile = 'tsconfig.json';
+const tsLintFile = 'tslint.json';
+
+const srcRootDir = tsConfig.compilerOptions.rootDir;
+const watching = [path.join(srcRootDir,'**','*')];
 
 const transformDefinition = [
   {
@@ -31,13 +36,15 @@ const transformDefinition = [
         delete data.scripts;
       }
       // main: remove outDir prefix
-      if (!data.main || !data.main.startsWith(outDir)) {
-        console.warn(
-          `packages.json: 'main' attribute not starting with '${outDir}'`);
-      } else {
-        data.main = data.main.substr(outDir.length);
-        if (data.main.length && data.main[0] === '/') {
-          data.main = data.main.substr(1);
+      if (data.main) {
+        if (!data.main.startsWith(outDir)) {
+          console.warn(
+            `packages.json: 'main' attribute not starting with '${outDir}'`);
+        } else {
+          data.main = data.main.substr(outDir.length);
+          if (data.main.length && data.main[0] === '/') {
+            data.main = data.main.substr(1);
+          }
         }
       }
       // devDependencies: delete this section, which is not required anymore
@@ -92,7 +99,7 @@ gulp.task('transform-data', function () {
 // tsc - transpile typescript sources
 
 gulp.task('tsc', function () {
-  var tsProject = gts.createProject(tsconfig, { typescript: ts });
+  var tsProject = gts.createProject(tsConfigFile, { typescript: ts });
 
   var tsOutDir = tsProject.config.compilerOptions.outDir;
 
@@ -114,10 +121,10 @@ gulp.task('tsc', function () {
 // tslint - typescript linter
 
 gulp.task('tslint', function () {
-  var tsProject = gts.createProject(tsconfig, { typescript: ts });
+  var tsProject = gts.createProject(tsConfigFile, { typescript: ts });
 
   return tsProject.src()
-    .pipe(gtslint({ configuration: tslintconfig, tslint: tslint }))
+    .pipe(gtslint({ configuration: tsLintFile, tslint: tslint }))
     .pipe(gtslint.report());
 })
 

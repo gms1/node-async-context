@@ -14,5 +14,5 @@ test:
 	npm run test
 
 publish: all test
-	cd dist && npm publish
+	cd dist && npm --access public publish
 
