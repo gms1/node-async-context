@@ -124,7 +124,7 @@ gulp.task('tslint', function () {
   var tsProject = gts.createProject(tsConfigFile, { typescript: ts });
 
   return tsProject.src()
-    .pipe(gtslint({ configuration: tsLintFile, tslint: tslint }))
+    .pipe(gtslint({ configuration: tsLintFile, tslint: tslint, formattersDirectory: 'tslint' }))
     .pipe(gtslint.report());
 })
 
