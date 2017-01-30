@@ -2,6 +2,7 @@
 [![npm version](https://badge.fury.io/js/asyncctx.svg)](https://badge.fury.io/js/asyncctx)
 [![Dependency Status](https://david-dm.org/gms1/node-async-context.svg)](https://david-dm.org/gms1/node-async-context)
 [![devDependency Status](https://david-dm.org/gms1/node-async-context/dev-status.svg)](https://david-dm.org/gms1/node-async-context#info=devDependencies)
+[![Known Vulnerabilities](https://snyk.io/test/github/gms1/node-async-context/badge.svg)](https://snyk.io/test/github/gms1/node-async-context)
 
 # node-async-context (asyncctx)
 This module allows you to create a asynchronouse execution context for JavaScript or TypeScript
