@@ -1,6 +1,6 @@
 "use strict";
 const gulp = require('gulp');
-const watch = require('gulp-watch');
+const watch = gulp.watch;
 const batch = require('gulp-batch');
 const jsonTransform = require('gulp-json-transform');
 const gsourcemaps = require('gulp-sourcemaps');
