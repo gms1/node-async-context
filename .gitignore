@@ -16,6 +16,7 @@ npm-debug.log*
 
 /dist
 /docs/typedoc
+.tmp
 
 #---------------------------------------
 # temporary files:

@@ -2,7 +2,7 @@
   "name": "asyncctx",
   "version": "0.0.5",
   "description": "an asynchronous execution context for TypeScript/JavaScript",
-  "main": "dist/index.js",
+  "main": "./index.js",
   "tags": [
     "javascript",
     "typescript",
@@ -29,7 +29,7 @@
     "build": "gulp build",
     "rebuild": "gulp rebuild",
     "watch": "gulp watch",
-    "tslint": "gulp tslint",
+    "tslint": "gulp ts:lint",
     "test": "node spec/jasmine-runner.js",
     "typedoc": "typedoc --options typedoc.json --out docs/typedoc/async-context --exclude '**/*.spec.ts' src/asyncctx",
     "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1"
@@ -38,6 +38,7 @@
     "async-hook": "^1.7.1"
   },
   "devDependencies": {
+    "@types/gulp": "^3.8.32",
     "@types/jasmine": "^2.5.38",
     "@types/node": "^6.0.52",
     "@types/reflect-metadata": "^0.0.5",
@@ -53,6 +54,7 @@
     "jasmine-spec-reporter": "^3.0.0",
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
+    "ts-node": "^2.1.0",
     "tslint": "^4.3.0",
     "typescript": "^2.1.4"
   },
