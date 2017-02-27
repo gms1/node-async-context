@@ -5,3 +5,7 @@
 *.spec.d.ts
 *.spec.js
 *.tgz
+
+# -- installed dependencies:
+node_modules
+
