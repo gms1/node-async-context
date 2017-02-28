@@ -2,7 +2,7 @@
   "rules": {
     "adjacent-overload-signatures": true,
     "member-access": false,
-    "member-ordering": [true, { "order": [ "static-before-instance", "variables-before-functions" ] }],
+    "member-ordering": [true, { "order": ["static-field", "instance-field", "constructor", "instance-method" ] }],
     "no-any": false,
     "no-inferrable-types": [false],
     "no-internal-module": true,
