@@ -1,18 +1,8 @@
-.PHONY: default all clean build test publish
+.PHONY: default test
 
-default: all test
-
-all: clean build
-
-clean:
-	npm run clean
-
-build:
-	npm run build
+default: test
 
 test:
-	npm run test
-
-publish: all test
-	cd dist && npm --access public publish
+	gulp clean
+	gulp build test
 

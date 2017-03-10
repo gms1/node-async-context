@@ -1,148 +1,159 @@
 'use strict';
 
 const gulp = require('gulp');
-const gulpWatch = gulp.watch;
-const gulpBatch = require('gulp-batch');
-const gulpDel = require('del');
+const gulpLog = require('gulplog');
 
 const path = require('path');
 
 const runSequence = require('run-sequence');
 
 const helpers = require('./helpers');
-const TaskDefinitions = require('./TaskDefinitions').TaskDefinitions;
+const TaskCollection = require('./TaskCollection').TaskCollection;
+const WatchTaskBuilder = require('./WatchTaskBuilder').WatchTaskBuilder;
+
+const OPT_NO_DEPS = 'no-deps';
+const OPT_WATCH_TASK = 'task';
 
 var TaskBuilder = (function () {
 
+  TaskBuilder.prototype.operationTypes = {
+    'delete': 'OperationDelete',
+    'jsonTransform':'OperationJsonTransform',
+    'copyFile': 'OperationCopyFile',
+    'execute': 'OperationExecute',
+    'jasmine': 'OperationJasmine',
+    'karma': 'OperationKarma',
+    'rollup': 'OperationRollup',
+    'typescript': 'OperationTSCompile',
+    'tslint': 'OperationTSLint'
+  }
+
   function TaskBuilder(config) {
     this.config = config;
-    this.definitions = new TaskDefinitions();
-    this.watch = new Set();
 
-    if (this.config.taskConfig.tasks) {
-      this.definitions.fromJSON(this.config.taskConfig.tasks);
-    }
+    this.tasks = new TaskCollection();
+    this.watch = new WatchTaskBuilder(this.config);
+
+    gulpLog.info(`mode: ${this.config.target}`);
 
     let task;
     // add predefined tasks
-    task = this.definitions.getTask('dist:clean');
-    task = this.definitions.getTask('clean');
-    task.addDeps('dist:clean');
-    task = this.definitions.getTask('build');
-    task = this.definitions.getTask('rebuild');
+    task = this.tasks.getTask('clean');
+    task.operation = {
+      type: 'delete',
+      src: [helpers.globify(this.config.outDir)]
+    };
+    task = this.tasks.getTask('build');
+    task = this.tasks.getTask('default');
+    task.addDeps('build');
+
+    task = this.tasks.getTask('rebuild');
     task.addDeps('clean');
-    task = this.definitions.getTask('default');
-    task.addDeps('build');
-    task = this.definitions.getTask('watch');
-    task.addDeps('build');
-    task = this.definitions.getTask('help');
+
+    task = this.tasks.getTask('watch');
+
+    task = this.tasks.getTask('help');
+
+    this.tasks.fromJSON(this.config.tasks);
   }
 
-  TaskBuilder.prototype.create = function () {
-    this.definitions.tasks.forEach((task, name) => {
-      this.createTask(task);
+  TaskBuilder.prototype.run = function () {
+    // create all tasks
+    this.tasks.tasks.forEach((task) => {
+      try {
+        this.createTask(task);
+      } catch (e) {
+        e.message = `ERROR: task '${task.name}': ` + (e.message || JSON.stringify(e));
+        throw e;
+      }
     });
+
   };
 
 
   TaskBuilder.prototype.createTask = function (task) {
 
-    // console.log(`creating task '${name}: ${task.deps}`);
+    // console.log(`creating task '${task.name}': [${task.deps}]:\n  `, task.operation || {});
 
-    // handle predefined tasks:
+    // handle special predefined tasks, which cannot be overwritten:
     var op = undefined;
     switch (task.name) {
-      case 'clean':
-      case 'build':
-      case 'default':
-        op = () => { };
-        break;
       case 'rebuild':
-        op = () => { gulp.start('build'); };
-        break;
-      case 'watch':
-        if (task.watch) {
-          task.watch.forEach((glob) => { this.watch.add(glob); });
-        }
-        op = () => {
-          if (this.watch.size) {
-            gulpWatch(...this.watch, gulpBatch((events, done) => { gulp.start('build', done); }));
-          }
-        }
-        break;
-      case 'help':
-        op = () => { this.definitions.printHelp(); };
-        break;
-      case 'dist:clean':
-        op = () => {
-          return gulpDel([
-            helpers.globify(this.config.outDir),
-            '!' + helpers.globify(this.config.outDir, 'node_modules')
-          ]);
-        };
-        break;
-    }
-    if (!op && !task.operation) {
-      // console.log(`creating noop task '${task.name}`);
-      op = () => { };
-    }
-    if (op) {
-      if (task.operation) {
-        throw new Error(`operation defined for predefined task '${task.name}'`);
-      }
-      gulp.task(task.name, task.deps, op);
-    } else {
-      switch (task.operation.type) {
-        case 'jsonTransform':
-          gulp.task(task.name, task.deps, () => {
-            return helpers.jsonTransformTask(task.operation, this.config.outDir);
-          })
-          break;
-        case 'copyFile':
-          gulp.task(task.name, task.deps, () => {
-            return helpers.copyFileTask(task.operation, this.config.outDir);
-          })
-          break;
-        case 'typescript':
-          const TSProject = require('./TSProject').TSProject;
-          var tsProject = new TSProject(this.config.rootDir, task.operation.tsConfigFile, task.operation.tsLintFile);
-          gulp.task(task.name, task.deps, () => {
-            return tsProject.task();
-          })
-          if (task.operation.watch) {
-            tsProject.watchings().forEach((w) => {
-              this.watch.add(w);
-            });
-            return;
-          }
-          break;
-        case 'tslint':
-          const TSLintProject = require('./TSLintProject').TSLintProject;
-          var tsLintProject = new TSLintProject(this.config.rootDir, task.operation.tsLintFile, task.operation.src);
-          gulp.task(task.name, task.deps, () => {
-            return tsLintProject.task();
-          })
-          break;
-        case 'execute':
-          gulp.task(task.name, task.deps, (done) => {
-            return helpers.executeTask(task.operation, done);
-          })
-          break;
-
-        default:
-          if (task.operation.type == undefined) {
-            throw new Error(`no operation type defined for task '${task.name}'`);
-          } else {
-            throw new Error(`unknown operation type '${task.operation.type}' defined for task '${task.name}'`);
-          }
-          break;
-      }
-      if (task.operation.watch) {
-        this.watch.add(task.operation.src);
+        this.addRebuildTask(task);
         return;
-      }
+      case 'watch':
+        this.addWatchTask(task);
+        return;
+      case 'help':
+        this.addHelpTask(task);
+        return;
     }
+
+    // create non-operation tasks:
+    if (!task.operation) {
+      this.addTask(task, () => { });
+      return;
+    }
+
+    if (task.operation.type == undefined) {
+      throw new Error(`no operation type defined'`);
+    }
+
+    var module = this.operationTypes[task.operation.type];
+    if (!module) {
+      throw new Error(`unknown operation type: '${task.operation.type}'`);
+    }
+
+    // create remaining tasks:
+    const OpCls = require(`./${module}`)[module];
+    task.operation.name = task.name;
+    var op = new OpCls(this.config, task.operation);
+
+    this.addTask(task, (done) => {
+      return op.run(done);
+    });
+    this.watch.addWatchGlobs(op.watch());
   }
+
+  TaskBuilder.prototype.addRebuildTask = function (task) {
+    if (task.operation) {
+      throw new Error(`operation definition not allowed on this predefined task'`);
+    }
+
+    task.addDeps('build');
+    var rebuildSubTasks = task.deps;
+    task.clearDeps();
+
+    this.addTask(task, (done) => {
+      return runSequence(rebuildSubTasks, (err) => {done()});
+    });
+  }
+
+  TaskBuilder.prototype.addWatchTask = function (task) {
+    if (task.operation) {
+      throw new Error(`operation definition not allowed on this predefined task'`);
+    }
+    if (task.deps.length) {
+      throw new Error(`specifying dependencies is not allowed on the 'watch'-task (see --task option and 'task' property)`);
+    }
+    this.watch.addTask(this, task, this.config.options.get(OPT_WATCH_TASK));
+  }
+
+  TaskBuilder.prototype.addHelpTask = function (task) {
+    if (task.operation) {
+      throw new Error(`operation definition not allowed on this predefined task'`);
+    }
+    this.addTask(task, () => {
+      this.tasks.printTasks();
+    });
+  }
+
+
+  TaskBuilder.prototype.addTask = function (task, op) {
+    gulp.task(task.name, this.config.options.has(OPT_NO_DEPS) ? [] : task.deps, op);
+  }
+
+
 
   return TaskBuilder;
 }());

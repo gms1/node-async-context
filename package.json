@@ -30,10 +30,12 @@
     "build": "gulp build",
     "rebuild": "gulp rebuild",
     "watch": "gulp watch",
-    "tslint": "gulp ts:lint",
-    "test": "node spec/jasmine-runner.js",
+    "test": "gulp test",
+    "testwatch": "gulp watch --task=test",
     "typedoc": "typedoc --options typedoc.json --out docs/typedoc/asyncctx --exclude '**/*.spec.ts' src/",
-    "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1"
+    "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1",
+    "release:build": "gulp clean && gulp build test --prod",
+    "release:publish": "npm run typedoc && cd dist && npm --access public publish"
   },
   "dependencies": {
     "async-hook": "^1.7.1"
@@ -46,7 +48,9 @@
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
+    "gulp-jasmine": "^2.4.2",
     "gulp-json-transform": "^0.4.2",
+    "gulp-options": "^1.1.1",
     "gulp-sourcemaps": "^2.4.1",
     "gulp-tslint": "^7.1.0",
     "gulp-typescript": "^3.1.5",

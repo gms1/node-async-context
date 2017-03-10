@@ -2,7 +2,7 @@
 
 const Task = require('./Task').Task;
 
-class TaskDefinitions {
+class TaskCollection {
 
   constructor() {
     this.tasks = new Map();
@@ -28,21 +28,26 @@ class TaskDefinitions {
         throw new Error(`task ${taskCounter} has no 'name' attribute defined`);
       }
       let task = this.getTask(taskdef.name);
-      if (taskdef.parent) {
-        let parentTask = this.getTask(taskdef.parent);
-        parentTask.addDeps([task.name]);
-      }
+      task.clearDeps();
       if (taskdef.deps) {
         task.addDeps(taskdef.deps);
       }
       if (taskdef.operation) {
         task.operation = taskdef.operation;
       }
-      if (taskdef.watch) {
-        if (task.name === 'watch') {
+      if (task.name === 'watch') {
+        if (taskdef.watch) {
           task.watch = taskdef.watch;
-        } else {
-          throw new Error(`'watch' property defined on task ${taskCounter} is only supported for teh 'watch' task`);
+        }
+        if (taskdef.task) {
+          task.task = taskdef.task;
+        }
+      } else {
+        if (taskdef.watch) {
+          throw new Error(`'watch' property defined on task ${taskCounter} is only supported for the 'watch' task`);
+        }
+        if (taskdef.task) {
+          throw new Error(`'task' property defined on task ${taskCounter} is only supported for the 'watch' task`);
         }
       }
     });
@@ -69,7 +74,7 @@ class TaskDefinitions {
     });
   }
 
-  printHelp() {
+  printTasks() {
     let logged = new Set();
     console.log('supported tasks:');
     let indent = 2;
@@ -92,4 +97,4 @@ class TaskDefinitions {
   }
 }
 
-exports.TaskDefinitions = TaskDefinitions;
+exports.TaskCollection = TaskCollection;

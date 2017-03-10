@@ -1,29 +1,35 @@
 'use strict';
 
 var config = {
+
+  rootDir: __dirname,
   outDir: './dist',
 
   tasks: [
     {
-      name: 'package.json',
+      name: 'dist:packageJson',
       operation: {
         type: 'jsonTransform',
         src: 'package.json',
         transform: (data, file) => {
           delete data.scripts;
-          delete data.devDependencies;
+          data.devDependencies = data.dependencies;
+          delete data.dependencies;
           return data;
         },
         whitespace: 2
       }
     },
     {
-      name: 'dist:files',
-      deps: [ 'package.json' ],
+      name: 'dist:copyFiles',
       operation: {
         type: 'copyFile',
         src: '{README.md,LICENSE,.npmignore}',
       }
+    },
+    {
+      name: 'dist:files',
+      deps: [ 'dist:packageJson', 'dist:copyFiles' ],
     },
     {
       name: 'ts:tsc',
@@ -45,16 +51,19 @@ var config = {
     {
       name: 'build',
       deps: [ 'dist:files', 'ts:tsc', 'ts:lint' ]
+    },
+    {
+      name: 'test',
+      deps: ['build'],
+      operation: {
+        type: 'jasmine',
+        src: './dist/**/*.spec.js'
+      }
     }
   ]
 
 };
 
 
-// add local node_modules to NODE_PATH to be able to symlink the build directory
-var np = require('path').join(__dirname , '/node_modules');
-process.env.NODE_PATH = process.env.NODE_PATH ? np + ':' + process.env.NODE_PATH : np;
-require('module').Module._initPaths();
-
-// run build
-require('./build/gulp/index').run(__dirname, config);
+// run:
+require('./build/gulp/index').run(config);

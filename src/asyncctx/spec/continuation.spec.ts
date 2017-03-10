@@ -1,3 +1,4 @@
+// tslint:disable: no-unused-variable
 import { ContinuationLocalStorage } from '../ContinuationLocalStorage';
 
 import * as fs from 'fs';
