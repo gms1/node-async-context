@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/gulp": "^3.8.32",
     "@types/jasmine": "^2.5.43",
-    "@types/node": "^6.0.65",
+    "@types/node": "^7.0.5",
     "@types/reflect-metadata": "^0.0.5",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
