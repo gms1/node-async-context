@@ -197,7 +197,7 @@ describe('test continuation:', () => {
       let outerValue: number;
       expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
       debugUid('START END  ');
-      new Promise((resolve, reject) => {
+      return new Promise<number>((resolve, reject) => {
         debugUid('OUTER BEGIN');
         const outerUid = cls.currUid;
         const outerPreviousUid = cls.getPreviousUid();
@@ -213,7 +213,7 @@ describe('test continuation:', () => {
         debugUid('OUTER END  ');
         resolve(outerUid);
       }).then((val) => {
-        return new Promise((resolve, reject) => {
+        return new Promise<number>((resolve, reject) => {
           debugUid('INNER BEGIN');
           const innerUid = cls.currUid;
           const innerPreviousUid = cls.getPreviousUid();
@@ -244,7 +244,7 @@ describe('test continuation:', () => {
       expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
       debugUid('START END  ');
       try {
-        await new Promise((resolve, reject) => {
+        await new Promise<number>((resolve, reject) => {
           debugUid('OUTER BEGIN');
           const outerUid = cls.currUid;
           const outerPreviousUid = cls.getPreviousUid();
@@ -260,7 +260,7 @@ describe('test continuation:', () => {
           debugUid('OUTER END  ');
           resolve(outerUid);
         }).then((val) => {
-          return new Promise((resolve, reject) => {
+          return new Promise<number>((resolve, reject) => {
             debugUid('INNER BEGIN');
             const innerUid = cls.currUid;
             const innerPreviousUid = cls.getPreviousUid();
