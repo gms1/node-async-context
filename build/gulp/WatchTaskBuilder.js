@@ -58,6 +58,7 @@ var WatchTaskBuilder = (function () {
   WatchTaskBuilder.prototype.addTask = function (taskBuilder, task, taskOption) {
     this.task = task;
     this.initBuildTargets(taskOption);
+    this.task.buildTargets = this.buildTargets;
 
     // additional watch globs may have been defined for watch-task:
     if (this.task.watch) {
@@ -71,13 +72,14 @@ var WatchTaskBuilder = (function () {
     // ( see hacks in OperationTSCompile, OperationTSLint,... for the hack regarding the 'continue' option )
 
     var runBuildTargets = (buildDone) => {
-      runSequence(Array.from(this.buildTargets), function(err) {
+      runSequence(Array.from(this.task.buildTargets), function(err) {
         if (err) {
           gulpLog.error('!!! FAILED !!!');
           // this.emit('end');
         } else {
           gulpLog.info('SUCCEEDED');
         }
+        gulpLog.info('WATCHING...');
         buildDone();
       });
     }
@@ -86,10 +88,12 @@ var WatchTaskBuilder = (function () {
       if (!this.watchGlobs.size) {
         gulpLog.error('nothing to watch');
         waitDone();
+        return;
       }
       gulpWatch(
         Array.from(this.watchGlobs),
         gulpBatch((events, batchDone) => {
+          gulpLog.info('WATCHING: got change event');
           runBuildTargets(batchDone);
         })
       );

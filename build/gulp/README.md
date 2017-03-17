@@ -25,6 +25,24 @@ var config = {
 require('./build/gulp/index').run(config);
 ```      
 
+or
+
+```javascript      
+
+function config(target /* 'production' or 'development' */) {
+  return {
+    outDir: './dist',
+
+    // array of task definitions:
+    tasks: []  
+  };
+}
+
+// run:
+require('./build/gulp/index').run(config, __dirname);
+```   
+
+
 ## task definitions
 
 #### properties:
@@ -138,7 +156,7 @@ all other properties are dependend on the specific task type
 
 ### jasmine
 
-requires the following packages:
+requires the following additional packages:
 * jasmine
 * jasmine-spec-reporter
 * gulp-jasmine
@@ -158,7 +176,7 @@ requires the following packages:
 
 ### karma
 
-requires the following packages:
+requires the following additional packages:
 * karma
 
 #### properies: 
@@ -175,7 +193,7 @@ requires the following packages:
 
 ### rollup
 
-requires the following packages:
+requires the following additional packages:
 * rollup
 * rollup-plugin-uglify
 * rollup-plugin-node-resolve
@@ -197,12 +215,18 @@ requires the following packages:
 
 ### transpile Typescript
 
-requires the following packages:
+requires the following additional packages:
 * typescript
 * tslint
 * gulp-typescript
 * gulp-sourcemaps
 * gulp-tslint
+
+#### properies: 
+* tsConfigFile:  the path to the 'tsconfig.json' relative to the root directory
+* watch?: optional boolean value to indicate if src should be watched by the watch-task
+
+#### sample:
 
 ```javascript
         operation: {
@@ -215,9 +239,16 @@ requires the following packages:
 
 ### tsLint
 
-requires the following packages:
+requires the following additional packages:
 * tslint
 * gulp-tslint
+
+#### properies: 
+* tsLintFile:  the path to the 'tslint.json' relative to the root directory
+* typeChecking?: set to true to enable rules requiring type checking
+* watch?: optional boolean value to indicate if src should be watched by the watch-task
+
+#### sample:
 
 ```javascript
         operation: {
@@ -226,6 +257,22 @@ requires the following packages:
           tsLintFile: 'tslint.json',
         }
 ```
+
+
+### sequence
+
+#### properies: 
+* sequence:  array of tasks which should run in sequence
+
+#### sample:
+
+```javascript
+        operation: {
+          type: 'sequence',
+          sequence: [ 'task1', [ 'task2.1', 'task2.2' ], 'task3' ]
+        }
+```
+This will run in this order 'task1', 'task2.1 and task2.2 in parallel and 'task3'
 
 ## predefined tasks
 

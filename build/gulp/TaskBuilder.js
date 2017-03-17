@@ -25,7 +25,8 @@ var TaskBuilder = (function () {
     'karma': 'OperationKarma',
     'rollup': 'OperationRollup',
     'typescript': 'OperationTSCompile',
-    'tslint': 'OperationTSLint'
+    'tslint': 'OperationTSLint',
+    'sequence': 'OperationTaskSequence'
   }
 
   function TaskBuilder(config) {
@@ -48,7 +49,6 @@ var TaskBuilder = (function () {
     task.addDeps('build');
 
     task = this.tasks.getTask('rebuild');
-    task.addDeps('clean');
 
     task = this.tasks.getTask('watch');
 
@@ -91,20 +91,23 @@ var TaskBuilder = (function () {
 
     // create non-operation tasks:
     if (!task.operation) {
-      this.addTask(task, () => { });
+      this.addTask(task);
       return;
     }
 
+    // create remaining tasks:
     if (task.operation.type == undefined) {
       throw new Error(`no operation type defined'`);
     }
+    this.addStandardTask(task);
+  }
 
+  TaskBuilder.prototype.addStandardTask = function (task) {
     var module = this.operationTypes[task.operation.type];
     if (!module) {
       throw new Error(`unknown operation type: '${task.operation.type}'`);
     }
 
-    // create remaining tasks:
     const OpCls = require(`./${module}`)[module];
     task.operation.name = task.name;
     var op = new OpCls(this.config, task.operation);
@@ -115,23 +118,16 @@ var TaskBuilder = (function () {
     this.watch.addWatchGlobs(op.watch());
   }
 
-  TaskBuilder.prototype.addRebuildTask = function (task) {
-    if (task.operation) {
-      throw new Error(`operation definition not allowed on this predefined task'`);
-    }
-
-    task.addDeps('build');
-    var rebuildSubTasks = task.deps;
-    task.clearDeps();
-
-    this.addTask(task, (done) => {
-      return runSequence(rebuildSubTasks, (err) => {done()});
-    });
-  }
-
   TaskBuilder.prototype.addWatchTask = function (task) {
     if (task.operation) {
-      throw new Error(`operation definition not allowed on this predefined task'`);
+      gulpLog.info(`overwriting predefined 'watch'-task`);
+      if (this.config.options.has(OPT_WATCH_TASK)) {
+        throw new Error(`'task'-option not supported'`);
+      } else if (task.task) {
+        throw new Error(`'task'-property not supported'`);
+      }
+      this.addStandardTask(task);
+      return;
     }
     if (task.deps.length) {
       throw new Error(`specifying dependencies is not allowed on the 'watch'-task (see --task option and 'task' property)`);
@@ -139,12 +135,31 @@ var TaskBuilder = (function () {
     this.watch.addTask(this, task, this.config.options.get(OPT_WATCH_TASK));
   }
 
+  TaskBuilder.prototype.addRebuildTask = function (task) {
+    if (task.operation) {
+      throw new Error(`operation definition not allowed on this predefined task'`);
+    }
+
+    task.addDeps('clean');
+    var rebuildSubTasks = task.deps;
+    task.clearDeps();
+
+    task.operation = {
+      type: 'sequence',
+      sequence: [ rebuildSubTasks, 'build' ]
+    };
+    this.addStandardTask(task);
+  }
+
+
+
   TaskBuilder.prototype.addHelpTask = function (task) {
     if (task.operation) {
       throw new Error(`operation definition not allowed on this predefined task'`);
     }
-    this.addTask(task, () => {
+    this.addTask(task, (done) => {
       this.tasks.printTasks();
+      done();
     });
   }
 

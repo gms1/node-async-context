@@ -54,19 +54,26 @@ class TaskCollection {
   }
 
   printTask(logged, name, indent) {
-    if (logged.has(name)) {
+    if (logged.has(name) || !this.tasks.has(name)) {
       return;
     }
     logged.add(name);
     let task = this.getTask(name);
-    if (!task.deps.length) {
-      return;
-    }
     let prefix = ' '.repeat(indent);
-    if (task.name === 'rebuild') {
-      console.log(`${prefix}${task.name}: clean,build`);
+    let subTasks;
+    if (task.name === 'watch' && !task.operation) {
+      var buildTargets = Array.from(task.buildTargets).join(', ');
+      subTasks = buildTargets + ' => (changeEvent) => ' + buildTargets;
     } else {
-      console.log(`${prefix}${task.name}: ${task.deps}`);
+      subTasks = task.deps.join(', ');
+      if (task.operation && task.operation.type === 'sequence') {
+        subTasks += ' => ' + task.operation.sequence.join(', ');
+      }
+    }
+    if (!subTasks.length) {
+      console.log(`${prefix}${task.name}`);
+    } else {
+      console.log(`${prefix}${task.name}: ${subTasks}`);
     }
     indent += 2;
     task.deps.forEach((dep) => {
@@ -80,6 +87,11 @@ class TaskCollection {
     let indent = 2;
     this.printTask(logged, 'clean', indent);
     this.printTask(logged, 'build', indent);
+    this.printTask(logged, 'default', indent);
+    this.printTask(logged, 'rebuild', indent);
+    this.printTask(logged, 'test', indent);
+    this.printTask(logged, 'watch', indent);
+    this.printTask(logged, 'help', indent);
     let logTask;
     do {
       logTask = undefined;

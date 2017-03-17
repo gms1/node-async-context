@@ -16,7 +16,7 @@ var OperationExecute = (function () {
   }
 
   OperationExecute.prototype.run = function (done) {
-    return execute(this.op.bin, this.op.args, this.op.options, this.op.silent, this.op.errMessage, done);
+    return this.execute(this.op.bin, this.op.args, this.op.options, this.op.silent, this.op.errMessage, done);
   }
 
 

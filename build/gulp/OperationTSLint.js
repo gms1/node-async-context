@@ -22,11 +22,16 @@ var OperationTSLint = (function () {
   }
 
   OperationTSLint.prototype.run = function() {
-    var program = tslint.Linter.createProgram(this.tsLintFilePath);
 
-    // activating 'type-check' by creating above 'program', I am facing some
-    // warnings about from gulpTSLint and/or TSLInt:
-    gulpLog.info('Please ignore the warnings `Cannot reading property "name|members|declarations|flags|exports" of undefined`');
+    var program;
+
+    if (this.op.typeChecking) {
+      program = tslint.Linter.createProgram(this.tsLintFilePath);
+      // activating 'type-check' by creating above 'program', I am facing some
+      // warnings about from gulpTSLint and/or TSLInt:
+      gulpLog.info('TSLint: Please ignore the warnings `Cannot reading property \'....\' of undefined`');
+    }
+
     var self = this;
     return gulp.src(this.op.src)
       .pipe(gulpTSLint({ configuration: this.tsLintFilePath, program, tslint, formattersDirectory: 'tslint' }))
