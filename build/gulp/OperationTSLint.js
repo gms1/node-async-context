@@ -27,9 +27,6 @@ var OperationTSLint = (function () {
 
     if (this.op.typeChecking) {
       program = tslint.Linter.createProgram(this.tsLintFilePath);
-      // activating 'type-check' by creating above 'program', I am facing some
-      // warnings about from gulpTSLint and/or TSLInt:
-      gulpLog.info('TSLint: Please ignore the warnings `Cannot reading property \'....\' of undefined`');
     }
 
     var self = this;
