@@ -51,7 +51,7 @@
     "gulp-json-transform": "^0.4.2",
     "gulp-options": "^1.1.1",
     "gulp-sourcemaps": "^2.4.1",
-    "gulp-tslint": "^7.1.0",
+    "gulp-tslint": "^8.0.0",
     "gulp-typescript": "^3.1.6",
     "gulp-watch": "^4.3.11",
     "jasmine": "^2.5.3",
