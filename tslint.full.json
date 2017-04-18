@@ -9,7 +9,7 @@
     "no-empty-interface": true,
 
     "no-import-side-effect": true,
-    "no-inferrable-types": false,
+    "no-inferrable-types": [false],
     "no-internal-module": true,
 
     "no-magic-numbers": false,
@@ -55,7 +55,7 @@
     "no-duplicate-super": true,
 
     "no-duplicate-variable": true,
-    "no-empty": true,
+    "no-empty": false,
     "no-eval": true,
 
     "no-floating-promises": [true],
@@ -93,7 +93,7 @@
     "typeof-compare": true,
     "use-isnan": true,
 
-    "cyclomatic-complexity": true,
+    "cyclomatic-complexity": [true],
     "eofline": true,
     "indent": [true, "spaces"],
 
@@ -113,7 +113,7 @@
     "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
 
     "align": [true],
-    "array-type": true,
+    "array-type": [false],
     "arrow-parens": true,
 
     "arrow-return-shorthand": true,
@@ -121,7 +121,7 @@
     "class-name": true,
 
     "comment-format": [true, "check-space"],
-    "completed-docs": false,
+    "completed-docs": [false],
     "file-header": [false],
 
     "import-spacing": true,

@@ -7,7 +7,7 @@ type preFunc = (uid: number) => void;
 type postFunc = (uid: number, didThrow: boolean) => void;
 type destroyFunc = (uid: number) => void;
 
-interface HookFuncs { init: initFunc; pre: preFunc; post: postFunc; destroy: destroyFunc; };
+interface HookFuncs { init: initFunc; pre: preFunc; post: postFunc; destroy: destroyFunc; }
 
 let nodeproc: any = process;
 

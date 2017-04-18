@@ -41,8 +41,8 @@
     "async-hook": "^1.7.1"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.43",
-    "@types/node": "^7.0.5",
+    "@types/jasmine": "^2.5.47",
+    "@types/node": "^7.0.12",
     "@types/reflect-metadata": "^0.0.5",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -50,17 +50,17 @@
     "gulp-jasmine": "^2.4.2",
     "gulp-json-transform": "^0.4.2",
     "gulp-options": "^1.1.1",
-    "gulp-sourcemaps": "^2.4.1",
-    "gulp-tslint": "^7.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-tslint": "^8.0.0",
     "gulp-typescript": "^3.1.6",
     "gulp-watch": "^4.3.11",
     "jasmine": "^2.5.3",
-    "jasmine-spec-reporter": "^3.2.0",
+    "jasmine-spec-reporter": "^4.0.0",
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
-    "tslint": "^5.0.0",
-    "typedoc": "^0.5.7",
-    "typescript": "^2.2.1"
+    "tslint": "^5.1.0",
+    "typedoc": "^0.5.10",
+    "typescript": "^2.2.2"
   },
   "typescript": {
     "definition": "./index.d.ts"
