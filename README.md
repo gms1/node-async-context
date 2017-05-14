@@ -5,6 +5,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/gms1/node-async-context/badge.svg)](https://snyk.io/test/github/gms1/node-async-context)
 
 # node-async-context (asyncctx)
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/gms1/node-async-context.svg)](https://greenkeeper.io/)
 This module allows you to create a asynchronouse execution context for JavaScript or TypeScript
 
 > NOTE: This module is based on [async-hook](https://github.com/AndreasMadsen/async-hook), which in turn is based 
