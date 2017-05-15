@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
-    "@types/node": "^7.0.12",
+    "@types/node": "^7.0.18",
     "@types/reflect-metadata": "^0.0.5",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -54,13 +54,13 @@
     "gulp-tslint": "^8.0.0",
     "gulp-typescript": "^3.1.6",
     "gulp-watch": "^4.3.11",
-    "jasmine": "^2.5.3",
-    "jasmine-spec-reporter": "^4.0.0",
+    "jasmine": "^2.6.0",
+    "jasmine-spec-reporter": "^4.1.0",
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
-    "tslint": "^5.1.0",
+    "tslint": "^5.2.0",
     "typedoc": "^0.7.0",
-    "typescript": "^2.2.2"
+    "typescript": "^2.3.2"
   },
   "typescript": {
     "definition": "./index.d.ts"
