@@ -48,7 +48,7 @@ export class ContinuationLocalStorage<T> {
     this.uidHookMap = new Map<number, HookInfo<T>>();
     this.uidHookMap.set(ROOT_UID, { uid: ROOT_UID, handle: undefined, provider: 0, previousUid: undefined, previousHook: undefined });
     this.hooks = {
-        init: (uid, handle, provider, parentUid, parentHandle) => {
+      init: (uid, handle, provider, parentUid, parentHandle) => {
         // a new async handle gets initialized:
 
         let previousUid = parentUid === null ? this._currUid : parentUid;
@@ -70,8 +70,8 @@ export class ContinuationLocalStorage<T> {
           if (!hi.previousHook) {
             nodeproc._rawDebug(`pre : WARNING: uid: ${hi.previousUid} is not registered (2)`);
           }
-        // } else {
-        //   this.nodeproc._rawDebug(`pre : WARNING: uid: ${this._currUid} is not registered (1)`);
+          // } else {
+          //   this.nodeproc._rawDebug(`pre : WARNING: uid: ${this._currUid} is not registered (1)`);
         }
         // this.debugUid('pre', uid);
       },
@@ -86,10 +86,10 @@ export class ContinuationLocalStorage<T> {
         // an async handle gets destroyed
         // this.debugUid('destroy', uid);
         if (this.uidHookMap.has(uid)) {
-           if (uid === this._currUid) {
-             nodeproc._rawDebug(`asyncctx: destroy hook called for current context (${this.currUid})!`);
-           }
-           this.uidHookMap.delete(uid);
+          if (uid === this._currUid) {
+            nodeproc._rawDebug(`asyncctx: destroy hook called for current context (${this.currUid})!`);
+          }
+          this.uidHookMap.delete(uid);
         }
       }
     };
@@ -102,7 +102,7 @@ export class ContinuationLocalStorage<T> {
    *
    * @returns {(T|undefined)}
    */
-  public getContext(): T|undefined {
+  public getContext(): T | undefined {
     let hi = this.uidHookMap.get(this.currUid);
     return hi ? hi.data : undefined;
   }
@@ -130,9 +130,9 @@ export class ContinuationLocalStorage<T> {
    *
    * @returns {(T|undefined)}
    */
-  public getRootContext(): T|undefined {
+  public getRootContext(): T | undefined {
     let hi = this.uidHookMap.get(ROOT_UID);
-     if (!hi) {
+    if (!hi) {
       throw new Error('internal error: root node not found (1)!');
     }
     return hi ? hi.data : undefined;
@@ -160,7 +160,7 @@ export class ContinuationLocalStorage<T> {
    * @param {number} [uid=this.currUid]
    * @returns {(number|undefined)}
    */
-  public getPreviousUid(uid: number = this.currUid): number|undefined {
+  public getPreviousUid(uid: number = this.currUid): number | undefined {
     let hi = this.uidHookMap.get(uid);
     return hi ? hi.previousUid : undefined;
   }
@@ -180,7 +180,7 @@ export class ContinuationLocalStorage<T> {
       if (hi.handle) {
         if (hi.handle.constructor) {
           funcName = hi.handle.constructor.name;
-        } else if (typeof hi.handle === 'function' && hi.handle.name ) {
+        } else if (typeof hi.handle === 'function' && hi.handle.name) {
           funcName = hi.handle.name;
         } else {
           funcName = hi.handle.toString().trim().match(/^function\s*([^\s(]+)/)[1];
