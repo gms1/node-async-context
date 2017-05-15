@@ -51,9 +51,9 @@ export class ContinuationLocalStorage<T> {
       init: (uid, handle, provider, parentUid, parentHandle) => {
         // a new async handle gets initialized:
 
-        let previousUid = parentUid === null ? this._currUid : parentUid;
-        // tslint:disable triple-equals
-        let previousHook = previousUid != undefined ? this.uidHookMap.get(previousUid) : undefined;
+        // tslint:disable-next-line strict-type-predicates
+        let previousUid = parentUid !== null ? parentUid : this._currUid;
+        let previousHook = this.uidHookMap.get(previousUid);
 
         this.uidHookMap.set(uid, { uid, handle, provider, previousUid, previousHook });
         if (previousUid && !previousHook) {
