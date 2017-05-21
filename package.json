@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
-    "@types/node": "^7.0.18",
+    "@types/node": "^7.0.21",
     "@types/reflect-metadata": "^0.0.5",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
@@ -59,7 +59,7 @@
     "merge-stream": "^1.0.1",
     "run-sequence": "^1.2.2",
     "tslint": "^5.2.0",
-    "typedoc": "^0.7.0",
+    "typedoc": "^0.7.1",
     "typescript": "^2.3.2"
   },
   "typescript": {
