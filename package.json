@@ -38,7 +38,7 @@
     "release:publish": "npm run typedoc && cd dist && npm --access public publish"
   },
   "dependencies": {
-    "async-hook": "^1.7.1"
+    "async-hook": "^2.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
