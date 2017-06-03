@@ -1,24 +1,24 @@
 // tslint:disable: no-null-keyword
 // tslint:disable-next-line: no-require-imports no-var-requires
-const asyncHook = require('async-hook');
+const asyncHooks = require('async_hooks');
 
-type initFunc = (uid: number, handle: any, provider: number, parentUid: number | null, parentHandle: any) => void;
-type preFunc = (uid: number) => void;
-type postFunc = (uid: number, didThrow: boolean) => void;
-type destroyFunc = (uid: number) => void;
+type initFunc = (id: number, type: string, triggerId: number) => void;
+type beforeFunc = (id: number) => void;
+type afterFunc = (id: number) => void;
+type destroyFunc = (id: number) => void;
 
-interface HookFuncs { init: initFunc; pre: preFunc; post: postFunc; destroy: destroyFunc; }
+interface HookFuncs { init: initFunc; before: beforeFunc; after: afterFunc; destroy: destroyFunc; }
+interface HookInstance { enable(): void; disable(): void; }
 
 let nodeproc: any = process;
 
-const ROOT_UID = 0;
+const ROOT_ID = 1;
 
 interface HookInfo<T> {
-  uid: number;
-  handle: any;
-  provider: number;
-  previousUid?: number;
-  previousHook?: HookInfo<T>;
+  id: number;
+  type: string;
+  triggerId: number;
+  triggerHook?: HookInfo<T>;
   data?: T;
 }
 
@@ -32,69 +32,72 @@ interface HookInfo<T> {
  */
 export class ContinuationLocalStorage<T> {
 
-  private _currUid: number;
-  public get currUid(): number { return this._currUid; }
+  private _currId: number;
+  public get currId(): number { return this._currId; }
 
-  private uidHookMap: Map<number, HookInfo<T>>;
+  private idHookMap: Map<number, HookInfo<T>>;
 
-  private hooks: HookFuncs;
+  private hookFuncs: HookFuncs;
+
+  private hookInstance: HookInstance;
 
   /**
    * Creates an instance of ContinuationLocalStorage.
    *
    */
   public constructor() {
-    this._currUid = ROOT_UID;
-    this.uidHookMap = new Map<number, HookInfo<T>>();
-    this.uidHookMap.set(ROOT_UID, { uid: ROOT_UID, handle: undefined, provider: 0, previousUid: undefined, previousHook: undefined });
-    this.hooks = {
-      init: (uid, handle, provider, parentUid, parentHandle) => {
+    this._currId = ROOT_ID;
+    this.idHookMap = new Map<number, HookInfo<T>>();
+    this.idHookMap.set(ROOT_ID, { id: ROOT_ID, type: 'C++', triggerId: 0});
+    this.hookFuncs = {
+      init: (id, type, triggerId) => {
         // a new async handle gets initialized:
 
         // tslint:disable-next-line strict-type-predicates
-        let previousUid = parentUid !== null ? parentUid : this._currUid;
-        let previousHook = this.uidHookMap.get(previousUid);
-
-        this.uidHookMap.set(uid, { uid, handle, provider, previousUid, previousHook });
-        if (previousUid && !previousHook) {
-          nodeproc._rawDebug(`init: WARNING: uid: ${previousUid} is not registered (3)`);
+        if (triggerId == null) {
+          triggerId = this._currId;
         }
-        // this.debugUid('init', uid);
+        let triggerHook = this.idHookMap.get(triggerId);
+        if (triggerId && !triggerHook) {
+          // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId: ${triggerId} is not registered (3)`);
+          // nodeproc._rawDebug(`  currId: ${this.currId}  or ${asyncHooks.currentId()}`);
+          triggerId = ROOT_ID;
+          triggerHook = this.idHookMap.get(triggerId);
+        }
+        this.idHookMap.set(id, { id, type, triggerId, triggerHook });
+        // this.debugId('init', id);
       },
-      pre: (uid) => {
+      before: (id) => {
         // an async handle starts
-        this._currUid = uid;
-        let hi = this.uidHookMap.get(uid);
+        this._currId = id;
+        let hi = this.idHookMap.get(id);
         if (hi) {
-          hi.data = hi.previousHook ? hi.previousHook.data : undefined;
-          if (!hi.previousHook) {
-            nodeproc._rawDebug(`pre : WARNING: uid: ${hi.previousUid} is not registered (2)`);
-          }
-          // } else {
-          //   this.nodeproc._rawDebug(`pre : WARNING: uid: ${this._currUid} is not registered (1)`);
+          hi.data = hi.triggerHook ? hi.triggerHook.data : undefined;
+        } else {
+          this._currId = ROOT_ID;
         }
-        // this.debugUid('pre', uid);
+        // this.debugId('before', id);
       },
-      post: (uid, didThrow) => {
+      after: (id) => {
         // an async handle ends
-        if (uid === this._currUid) {
-          this._currUid = ROOT_UID;
+        if (id === this._currId) {
+          this._currId = ROOT_ID;
         }
-        // this.debugUid('post', uid);
+        // this.debugId('after', id);
       },
-      destroy: (uid) => {
+      destroy: (id) => {
         // an async handle gets destroyed
-        // this.debugUid('destroy', uid);
-        if (this.uidHookMap.has(uid)) {
-          if (uid === this._currUid) {
-            nodeproc._rawDebug(`asyncctx: destroy hook called for current context (${this.currUid})!`);
+        // this.debugid('destroy', id);
+        if (this.idHookMap.has(id)) {
+          if (id === this._currId) {
+            nodeproc._rawDebug(`asyncctx: destroy hook called for current context (id: ${this.currId})!`);
           }
-          this.uidHookMap.delete(uid);
+          this.idHookMap.delete(id);
         }
       }
     };
-    asyncHook.addHooks(this.hooks);
-    ContinuationLocalStorage.enable();
+    this.hookInstance = asyncHooks.createHook(this.hookFuncs) as HookInstance;
+    this.enable();
   }
 
   /**
@@ -103,7 +106,7 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T|undefined)}
    */
   public getContext(): T | undefined {
-    let hi = this.uidHookMap.get(this.currUid);
+    let hi = this.idHookMap.get(this.currId);
     return hi ? hi.data : undefined;
   }
 
@@ -114,10 +117,10 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T)}
    */
   public setContext(value: T): T {
-    if (!this.currUid || this.currUid === ROOT_UID) {
-      throw new Error(`setContext must be called in an async context (${this.currUid})!`);
+    if (!this.currId || this.currId === ROOT_ID) {
+      throw new Error(`setContext must be called in an async context (${this.currId})!`);
     }
-    let hi = this.uidHookMap.get(this.currUid);
+    let hi = this.idHookMap.get(this.currId);
     if (!hi) {
       throw new Error('setContext must be called in an async context (2)!');
     }
@@ -131,7 +134,7 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T|undefined)}
    */
   public getRootContext(): T | undefined {
-    let hi = this.uidHookMap.get(ROOT_UID);
+    let hi = this.idHookMap.get(ROOT_ID);
     if (!hi) {
       throw new Error('internal error: root node not found (1)!');
     }
@@ -139,13 +142,13 @@ export class ContinuationLocalStorage<T> {
   }
 
   /**
-   * Set the current execution context data
+   * Set the root execution context data
    *
    * @param {T} value
    * @returns {(T)}
    */
   public setRootContext(value: T): T {
-    let hi = this.uidHookMap.get(ROOT_UID);
+    let hi = this.idHookMap.get(ROOT_ID);
     if (!hi) {
       throw new Error('internal error: root node not found (2)!');
     }
@@ -155,14 +158,14 @@ export class ContinuationLocalStorage<T> {
 
 
   /**
-   * Get the Uid of the caller (for debugging purpose)
+   * Get the id of the caller (for debugging purpose)
    *
-   * @param {number} [uid=this.currUid]
+   * @param {number} [id=this.currId]
    * @returns {(number|undefined)}
    */
-  public getPreviousUid(uid: number = this.currUid): number | undefined {
-    let hi = this.uidHookMap.get(uid);
-    return hi ? hi.previousUid : undefined;
+  public getTriggerId(id: number = this.currId): number | undefined {
+    let hi = this.idHookMap.get(id);
+    return hi ? hi.triggerId : undefined;
   }
 
 
@@ -171,21 +174,11 @@ export class ContinuationLocalStorage<T> {
    * debug output
    *
    * @param {string} prefix
-   * @param {number} [uid=this.currUid]
+   * @param {number} [id=this.currId]
    */
-  public debugUid(prefix: string, uid: number = this.currUid): void {
-    let hi = this.uidHookMap.get(uid);
+  public debugId(prefix: string, id: number = this.currId): void {
+    let hi = this.idHookMap.get(id);
     if (hi) {
-      let funcName: string | undefined;
-      if (hi.handle) {
-        if (hi.handle.constructor) {
-          funcName = hi.handle.constructor.name;
-        } else if (typeof hi.handle === 'function' && hi.handle.name) {
-          funcName = hi.handle.name;
-        } else {
-          funcName = hi.handle.toString().trim().match(/^function\s*([^\s(]+)/)[1];
-        }
-      }
       let data: string = 'undefined';
       if (hi.data) {
         try {
@@ -194,9 +187,9 @@ export class ContinuationLocalStorage<T> {
           data = hi.data.toString();
         }
       }
-      nodeproc._rawDebug(`${prefix}: uid: ${uid}  previousUid: ${hi.previousUid} ${funcName} (${data})`);
+      nodeproc._rawDebug(`${prefix}: id: ${id} trigger: ${hi.type}/${hi.triggerId} (${data})`);
     } else {
-      nodeproc._rawDebug(`${prefix}: uid: ${uid}`);
+      nodeproc._rawDebug(`${prefix}: id: ${id}`);
     }
   }
 
@@ -205,27 +198,26 @@ export class ContinuationLocalStorage<T> {
    * clean up
    */
   public dispose(): void {
-    asyncHook.removeHooks(this.hooks);
-    this.uidHookMap.clear();
+    // asyncHook.removeHooks(this.hooks);
+    this.disable();
+    this.idHookMap.clear();
   }
 
 
   /**
    * enable AsyncWrap globally
    *
-   * @static
    */
-  public static enable(): void {
-    asyncHook.enable();
+  public enable(): void {
+    this.hookInstance.enable();
   }
 
   /**
    * disable AsyncWrap globally
    *
-   * @static
    */
-  public static disable(): void {
-    asyncHook.disable();
+  public disable(): void {
+    this.hookInstance.disable();
   }
 
 

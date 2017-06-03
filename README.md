@@ -7,14 +7,9 @@
 
 # node-async-context (asyncctx)
 
-This module allows you to create a asynchronouse execution context for JavaScript or TypeScript
+This module allows you to create an asynchronouse execution context for JavaScript or TypeScript
 
-> NOTE: This module is based on [async-hook](https://github.com/AndreasMadsen/async-hook), which in turn is based 
-on the undocumented API [AsyncWrap](https://github.com/nodejs/diagnostics/blob/master/tracing/AsyncWrap/README.md)
-
-This is the reason why **async-hook** will show this warning on startup:
-
-> WARNING: 'you are using async-hook which is unstable.'
+> NOTE: This module is based on [async_hooks](https://github.com/nodejs/node/blob/master/doc/api/async_hooks.md) an experimental built-in node.js module introduced in v8.0.0
 
 > NOTE: Your contribution is highly welcome!
 
@@ -60,6 +55,7 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                                                            |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------|
+| 1.0.00    | is now based on 'async_hooks' an built-in nodejs module but requires nodejs v8                                                   |
 | 0.0.06    | maintenance releases                                                                                                             |
 | 0.0.05    | async-hook 1.7.1                                                                                                                 |
 | 0.0.01-04 | initial version                                                                                                                  |
