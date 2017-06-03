@@ -38,9 +38,6 @@
     "release:publish": "npm run typedoc && cd dist && npm --access public publish"
   },
   "dependencies": {
-    "buffer-shims": "^1.0.0",
-    "process-nextick-args": "^1.0.7",
-    "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.47",
