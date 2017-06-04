@@ -1,0 +1,3 @@
+build/gulp/* linguist-vendored
+*.js linguist-vendored
+spec/jasmine-runner.js/* linguist-vendored
