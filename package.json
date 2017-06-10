@@ -64,6 +64,6 @@
     "definition": "./index.d.ts"
   },
   "engines": {
-    "node": "^8.0"
+    "node": "^8.1"
   }
 }
