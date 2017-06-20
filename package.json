@@ -40,7 +40,7 @@
   "dependencies": {},
   "devDependencies": {
     "@types/jasmine": "^2.5.51",
-    "@types/node": "^8.0.0",
+    "@types/node": "^8.0.1",
     "@types/reflect-metadata": "^0.0.5",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
