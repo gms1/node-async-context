@@ -39,7 +39,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/jasmine": "^2.5.51",
+    "@types/jasmine": "^2.5.53",
     "@types/node": "^8.0.2",
     "@types/reflect-metadata": "^0.0.5",
     "del": "^3.0.0",
@@ -58,7 +58,7 @@
     "run-sequence": "^1.2.2",
     "tslint": "^5.4.3",
     "typedoc": "^0.7.1",
-    "typescript": "^2.3.4"
+    "typescript": "^2.4.1"
   },
   "typescript": {
     "definition": "./index.d.ts"
