@@ -5,8 +5,8 @@
     "moduleResolution": "node",
     "removeComments": false,
     "stripInternal": false,
-    "rootDir": "./src/asyncctx",
-    "outDir": "./dist/",
+    "rootDir": "src/asyncctx",
+    "outDir": "./dist",
     "declaration": true,
     "sourceMap": true,
     "experimentalDecorators": true,
@@ -18,15 +18,14 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "typeRoots": ["node_modules/@types"],
-    "types": ["node", "jasmine" ]
+    "types": ["node", "jasmine"]
   },
   "include":[
       "./src/**/*"
   ],
   "exclude":[
-      "./dist/**",
-      "./node_modules/**",
-      "./gulp/**"
+      "./dist/**/*",
+      "./node_modules/**/*"
   ]
 
 }
