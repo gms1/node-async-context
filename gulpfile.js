@@ -1,7 +1,6 @@
 'use strict';
 
 function config(target /* 'production' or 'development' */) {
-
   var tsLintTask = target === 'production' ? 'ts:lint:full' : 'ts:lint';
 
   return {
@@ -22,15 +21,23 @@ function config(target /* 'production' or 'development' */) {
         }
       },
       {
-        name: 'dist:copyFiles',
+        name: 'dist:copyMainFiles',
         operation: {
           type: 'copyFile',
           src: '{README.md,LICENSE,.npmignore}',
         }
       },
       {
+        name: 'dist:copyAsyncHook',
+        operation: {
+          type: 'copyFile',
+          src: 'src/asyncctx/async-hook/**/*',
+          base: 'src/asyncctx/',
+        }
+      },
+      {
         name: 'dist:files',
-        deps: ['dist:packageJson', 'dist:copyFiles'],
+        deps: ['dist:packageJson', 'dist:copyMainFiles', 'dist:copyAsyncHook'],
       },
       {
         name: 'ts:tsc',
@@ -51,25 +58,10 @@ function config(target /* 'production' or 'development' */) {
       },
       {
         name: 'ts:lint:full',
-        operation: {
-          type: 'tslint',
-          src: './src/**/*.ts',
-          tsLintFile: 'tslint.full.json',
-          typeChecking: true
-        }
+        operation: {type: 'tslint', src: './src/**/*.ts', tsLintFile: 'tslint.full.json', typeChecking: true}
       },
-      {
-        name: 'build',
-        deps: ['dist:files', 'ts:tsc', tsLintTask]
-      },
-      {
-        name: 'test',
-        deps: ['build'],
-        operation: {
-          type: 'jasmine',
-          src: './dist/**/*.spec.js'
-        }
-      }
+      {name: 'build', deps: ['dist:files', 'ts:tsc', tsLintTask]},
+      {name: 'test', deps: ['build'], operation: {type: 'jasmine', src: './dist/**/*.spec.js'}}
     ]
 
   };

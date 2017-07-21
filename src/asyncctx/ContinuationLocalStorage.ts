@@ -3,23 +3,20 @@
 
 const semver = require('semver');
 const nodeVersion = process.versions.node;
-if (!semver.gte(nodeVersion, '8.0.0')) {
-  throw new Error(
-      `This version of 'asyncctx' depends on node >= 8.0.0 but you are using ${nodeVersion}\n    Please install 'asyncctx@^0' or upgrade node`);
+let asyncHooks: any;
+if (semver.gte(nodeVersion, '8.0.0')) {
+  asyncHooks = require('async_hooks');
+} else {
+  asyncHooks = require('./fake_async_hooks');
 }
-const asyncHooks = require('async_hooks');
-
-type initFunc = (id: number, type: string, triggerId: number) => void;
-type beforeFunc = (id: number) => void;
-type afterFunc = (id: number) => void;
-type destroyFunc = (id: number) => void;
 
 interface HookFuncs {
-  init: initFunc;
-  before: beforeFunc;
-  after: afterFunc;
-  destroy: destroyFunc;
+  init(id: number, type: string, triggerId: number): void;
+  before(id: number): void;
+  after(id: number): void;
+  destroy(id: number): void;
 }
+
 interface HookInstance {
   enable(): void;
   disable(): void;
@@ -70,29 +67,28 @@ export class ContinuationLocalStorage<T> {
         const oriTriggerId = triggerId;
         // tslint:disable-next-line strict-type-predicates
         if (triggerId == null) {
-          // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not
-          // defined`);
+          // NOTES: this should not happen
+          // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not defined`);
           triggerId = this._currId;
         }
         let triggerHook = this.idHookMap.get(triggerId);
         if (!triggerHook) {
-          // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId:
-          // ${triggerId} is not registered`);
+          // NOTES: this is expected
+          // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId: ${triggerId} is not registered`);
           triggerId = ROOT_ID;
           triggerHook = this.idHookMap.get(triggerId);
         } else {
           while (triggerHook.type === 'PROMISE' && !triggerHook.activated &&
                  this.idHookMap.has(triggerHook.triggerId)) {
-            // nodeproc._rawDebug(`init:   id: ${id}: WARNING: changing trigger
-            // from ${triggerId} to ${triggerHook.triggerId}`);
+            // NOTES: this is expected
+            // nodeproc._rawDebug(
+            //     `init:   id: ${id}: WARNING: changing trigger from ${triggerId} to ${triggerHook.triggerId}`);
             triggerId = triggerHook.triggerId;
             triggerHook = this.idHookMap.get(triggerId) as HookInfo<T>;
           }
         }
 
-        this.idHookMap.set(
-            id,
-            {id, type, triggerId, oriTriggerId, triggerHook, activated: false});
+        this.idHookMap.set(id, {id, type, triggerId, oriTriggerId, triggerHook, activated: false});
         // this.debugId('init', id);
       },
       before: (id) => {
@@ -121,8 +117,7 @@ export class ContinuationLocalStorage<T> {
         // this.debugId('destroy', id);
         if (this.idHookMap.has(id)) {
           if (id === this._currId) {
-            nodeproc._rawDebug(
-                `asyncctx: destroy hook called for current context (id: ${this.currId})!`);
+            nodeproc._rawDebug(`asyncctx: destroy hook called for current context (id: ${this.currId})!`);
           }
           this.idHookMap.delete(id);
         }
@@ -149,13 +144,9 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T)}
    */
   public setContext(value: T): T {
-    if (!this.currId || this.currId === ROOT_ID) {
-      throw new Error(
-          `setContext must be called in an async context (${this.currId})!`);
-    }
     let hi = this.idHookMap.get(this.currId);
     if (!hi) {
-      throw new Error('setContext must be called in an async context (2)!');
+      throw new Error('setContext must be called in an async context!');
     }
     hi.data = value;
     return value;
@@ -241,7 +232,7 @@ export class ContinuationLocalStorage<T> {
 
 
   /**
-   * enable AsyncWrap globally
+   * enable
    *
    */
   public enable(): void {
@@ -250,7 +241,7 @@ export class ContinuationLocalStorage<T> {
   }
 
   /**
-   * disable AsyncWrap globally
+   * disable
    *
    */
   public disable(): void { this.hookInstance.disable(); }
@@ -258,8 +249,7 @@ export class ContinuationLocalStorage<T> {
 
   protected initMap(value?: T): void {
     this.idHookMap = new Map<number, HookInfo<T>>();
-    this.idHookMap.set(
-        ROOT_ID, {id: ROOT_ID, type: 'C++', triggerId: 0, activated: true});
+    this.idHookMap.set(ROOT_ID, {id: ROOT_ID, type: 'C++', triggerId: 0, activated: true});
     this._currId = ROOT_ID;
     if (value) {
       this.setRootContext(value);
