@@ -15,12 +15,7 @@ class Task {
       this._deps.add(deps);
     }
   }
-  clearDeps() {
-    this._deps.clear();
-  }
-  get deps() {
-    return Array.from(this._deps);
-  }
-
+  clearDeps() { this._deps.clear(); }
+  get deps() { return Array.from(this._deps); }
 }
 exports.Task = Task;

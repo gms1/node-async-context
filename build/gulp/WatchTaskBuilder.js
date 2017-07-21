@@ -7,28 +7,28 @@ const gulpLog = require('gulplog');
 const runSequence = require('run-sequence');
 
 
-var WatchTaskBuilder = (function () {
+var WatchTaskBuilder = (function() {
 
 
   function WatchTaskBuilder(config) {
     this.config = config;
     this.watchGlobs = new Set();
     this.buildTargets = new Set();
-  }
+  };
 
   // add globs to our 'watchGlobs' property
-  WatchTaskBuilder.prototype.addWatchGlobs = function (globs) {
+  WatchTaskBuilder.prototype.addWatchGlobs = function(globs) {
     globs.forEach((glob) => { this.watchGlobs.add(glob); });
-  }
+  };
 
   // add build targets to our 'buildTargets' property
-  WatchTaskBuilder.prototype.addBuildTargets = function (targets) {
+  WatchTaskBuilder.prototype.addBuildTargets = function(targets) {
     if (Array.isArray(targets)) {
       targets.forEach((target) => this.buildTargets.add(target));
     } else {
       this.buildTargets.add(targets);
     }
-  }
+  };
 
   // initialize 'buildTargets' property
   WatchTaskBuilder.prototype.initBuildTargets = function(taskOption) {
@@ -53,9 +53,9 @@ var WatchTaskBuilder = (function () {
       this.addBuildTargets('build');
     }
 
-  }
+  };
 
-  WatchTaskBuilder.prototype.addTask = function (taskBuilder, task, taskOption) {
+  WatchTaskBuilder.prototype.addTask = function(taskBuilder, task, taskOption) {
     this.task = task;
     this.initBuildTargets(taskOption);
     this.task.buildTargets = this.buildTargets;
@@ -82,7 +82,7 @@ var WatchTaskBuilder = (function () {
         gulpLog.info('WATCHING...');
         buildDone();
       });
-    }
+    };
 
     var waitForChanges = (waitDone) => {
       if (!this.watchGlobs.size) {
@@ -90,22 +90,15 @@ var WatchTaskBuilder = (function () {
         waitDone();
         return;
       }
-      gulpWatch(
-        Array.from(this.watchGlobs),
-        gulpBatch((events, batchDone) => {
-          gulpLog.info('WATCHING: got change event');
-          runBuildTargets(batchDone);
-        })
-      );
-    }
+      gulpWatch(Array.from(this.watchGlobs), gulpBatch((events, batchDone) => {
+                  gulpLog.info('WATCHING: got change event');
+                  runBuildTargets(batchDone);
+                }));
+    };
 
-    taskBuilder.addTask(this.task, (done) => {
-      runBuildTargets(() => {
-        waitForChanges(done);
-      });
-    });
+    taskBuilder.addTask(this.task, (done) => { runBuildTargets(() => { waitForChanges(done); }); });
 
-  }
+  };
 
   return WatchTaskBuilder;
 }());

@@ -5,7 +5,7 @@ const uglify = require('rollup-plugin-uglify');
 
 const path = require('path');
 
-var OperationRollup = (function () {
+var OperationRollup = (function() {
   function OperationRollup(config, op) {
     this.config = config;
     this.op = op;
@@ -25,42 +25,32 @@ var OperationRollup = (function () {
     if (!this.rollupConfig.dest) {
       throw new Error(`OperationRollup: 'dest' is not defined in '${this.rollupConfig}'`);
     }
-  }
+  };
 
-  OperationRollup.prototype.std = function () {
-    return rollup.rollup(this.rollupConfig).then((bundle) => {
-      bundle.write(this.rollupConfig);
-    });
-  }
+  OperationRollup.prototype.std = function() {
+    return rollup.rollup(this.rollupConfig).then((bundle) => { return bundle.write(this.rollupConfig); });
+  };
 
-  OperationRollup.prototype.minified = function () {
+  OperationRollup.prototype.minified = function() {
     var rollupConfigMinified = Object.assign({}, this.rollupConfig);
 
     rollupConfigMinified.plugins = [].concat(rollupConfigMinified.plugins);
-    rollupConfigMinified.plugins.push(uglify({
-                            output: {
-                                comments: (node, comment) => comment.value.startsWith("!")
-                            }
-                        }));
+    rollupConfigMinified.plugins.push(uglify({output: {comments: (node, comment) => comment.value.startsWith('!')}}));
     rollupConfigMinified.dest = rollupConfigMinified.dest.replace(/\.js$/, '.min.js');
 
-    return rollup.rollup(rollupConfigMinified).then((bundle) => {
-      bundle.write(rollupConfigMinified);
-    });
-  }
+    return rollup.rollup(rollupConfigMinified).then((bundle) => { return bundle.write(rollupConfigMinified); });
+  };
 
-  OperationRollup.prototype.run = function () {
-    if ( this.op.addMinified ) {
-       return Promise.all( [ this.minified(), this.std() ]);
+  OperationRollup.prototype.run = function() {
+    if (this.op.addMinified) {
+      return Promise.all([this.minified(), this.std()]);
     } else {
       return this.std();
     }
-  }
+  };
 
 
-  OperationRollup.prototype.watch = function () {
-    return [];
-  }
+  OperationRollup.prototype.watch = function() { return []; };
 
 
   return OperationRollup;

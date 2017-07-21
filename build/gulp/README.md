@@ -196,7 +196,7 @@ requires the following additional packages:
 requires the following additional packages:
 * rollup
 * rollup-plugin-uglify
-* rollup-plugin-node-resolve
+* rollup-plugin-node-resolve-angular
 * rollup-plugin-commonjs
 
 #### properies: 

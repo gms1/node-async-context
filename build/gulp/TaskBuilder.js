@@ -14,11 +14,11 @@ const WatchTaskBuilder = require('./WatchTaskBuilder').WatchTaskBuilder;
 const OPT_NO_DEPS = 'no-deps';
 const OPT_WATCH_TASK = 'task';
 
-var TaskBuilder = (function () {
+var TaskBuilder = (function() {
 
   TaskBuilder.prototype.operationTypes = {
     'delete': 'OperationDelete',
-    'jsonTransform':'OperationJsonTransform',
+    'jsonTransform': 'OperationJsonTransform',
     'copyFile': 'OperationCopyFile',
     'execute': 'OperationExecute',
     'jasmine': 'OperationJasmine',
@@ -26,8 +26,9 @@ var TaskBuilder = (function () {
     'rollup': 'OperationRollup',
     'typescript': 'OperationTSCompile',
     'tslint': 'OperationTSLint',
+    'sorcery': 'OperationSorcery',
     'sequence': 'OperationTaskSequence'
-  }
+  };
 
   function TaskBuilder(config) {
     this.config = config;
@@ -40,10 +41,7 @@ var TaskBuilder = (function () {
     let task;
     // add predefined tasks
     task = this.tasks.getTask('clean');
-    task.operation = {
-      type: 'delete',
-      src: [helpers.globify(this.config.outDir)]
-    };
+    task.operation = {type: 'delete', src: [helpers.globify(this.config.outDir)]};
     task = this.tasks.getTask('build');
     task = this.tasks.getTask('default');
     task.addDeps('build');
@@ -55,9 +53,9 @@ var TaskBuilder = (function () {
     task = this.tasks.getTask('help');
 
     this.tasks.fromJSON(this.config.tasks);
-  }
+  };
 
-  TaskBuilder.prototype.run = function () {
+  TaskBuilder.prototype.run = function() {
     // create all tasks
     this.tasks.tasks.forEach((task) => {
       try {
@@ -71,7 +69,7 @@ var TaskBuilder = (function () {
   };
 
 
-  TaskBuilder.prototype.createTask = function (task) {
+  TaskBuilder.prototype.createTask = function(task) {
 
     // console.log(`creating task '${task.name}': [${task.deps}]:\n  `, task.operation || {});
 
@@ -100,9 +98,9 @@ var TaskBuilder = (function () {
       throw new Error(`no operation type defined'`);
     }
     this.addStandardTask(task);
-  }
+  };
 
-  TaskBuilder.prototype.addStandardTask = function (task) {
+  TaskBuilder.prototype.addStandardTask = function(task) {
     var module = this.operationTypes[task.operation.type];
     if (!module) {
       throw new Error(`unknown operation type: '${task.operation.type}'`);
@@ -112,13 +110,11 @@ var TaskBuilder = (function () {
     task.operation.name = task.name;
     var op = new OpCls(this.config, task.operation);
 
-    this.addTask(task, (done) => {
-      return op.run(done);
-    });
+    this.addTask(task, (done) => { return op.run(done); });
     this.watch.addWatchGlobs(op.watch());
-  }
+  };
 
-  TaskBuilder.prototype.addWatchTask = function (task) {
+  TaskBuilder.prototype.addWatchTask = function(task) {
     if (task.operation) {
       gulpLog.info(`overwriting predefined 'watch'-task`);
       if (this.config.options.has(OPT_WATCH_TASK)) {
@@ -130,12 +126,13 @@ var TaskBuilder = (function () {
       return;
     }
     if (task.deps.length) {
-      throw new Error(`specifying dependencies is not allowed on the 'watch'-task (see --task option and 'task' property)`);
+      throw new Error(
+          `specifying dependencies is not allowed on the 'watch'-task (see --task option and 'task' property)`);
     }
     this.watch.addTask(this, task, this.config.options.get(OPT_WATCH_TASK));
-  }
+  };
 
-  TaskBuilder.prototype.addRebuildTask = function (task) {
+  TaskBuilder.prototype.addRebuildTask = function(task) {
     if (task.operation) {
       throw new Error(`operation definition not allowed on this predefined task'`);
     }
@@ -144,16 +141,13 @@ var TaskBuilder = (function () {
     var rebuildSubTasks = task.deps;
     task.clearDeps();
 
-    task.operation = {
-      type: 'sequence',
-      sequence: [ rebuildSubTasks, 'build' ]
-    };
+    task.operation = {type: 'sequence', sequence: [rebuildSubTasks, 'build']};
     this.addStandardTask(task);
-  }
+  };
 
 
 
-  TaskBuilder.prototype.addHelpTask = function (task) {
+  TaskBuilder.prototype.addHelpTask = function(task) {
     if (task.operation) {
       throw new Error(`operation definition not allowed on this predefined task'`);
     }
@@ -161,12 +155,12 @@ var TaskBuilder = (function () {
       this.tasks.printTasks();
       done();
     });
-  }
+  };
 
 
-  TaskBuilder.prototype.addTask = function (task, op) {
+  TaskBuilder.prototype.addTask = function(task, op) {
     gulp.task(task.name, this.config.options.has(OPT_NO_DEPS) ? [] : task.deps, op);
-  }
+  };
 
 
 

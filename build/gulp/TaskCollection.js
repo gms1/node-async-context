@@ -3,10 +3,7 @@
 const Task = require('./Task').Task;
 
 class TaskCollection {
-
-  constructor() {
-    this.tasks = new Map();
-  }
+  constructor() { this.tasks = new Map(); }
 
   getTask(name) {
     if (this.tasks.has(name)) {
@@ -76,9 +73,7 @@ class TaskCollection {
       console.log(`${prefix}${task.name}: ${subTasks}`);
     }
     indent += 2;
-    task.deps.forEach((dep) => {
-      this.printTask(logged, dep, indent);
-    });
+    task.deps.forEach((dep) => { this.printTask(logged, dep, indent); });
   }
 
   printTasks() {
