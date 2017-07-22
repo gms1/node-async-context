@@ -55,7 +55,7 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                                                            |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------|
-| 1.0.01    | added support for previous nodejs versions using builtin async-hook@1.7.1                                                        |
+| 1.0.01    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1                                          |
 | 1.0.00    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)                                                                    |
 | 0.0.06    | maintenance releases                                                                                                             |
 | 0.0.05    | async-hook 1.7.1                                                                                                                 |
