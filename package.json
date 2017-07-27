@@ -59,7 +59,7 @@
     "merge-stream": "^1.0.1",
     "run-sequence": "^2.0.0",
     "tslint": "^5.5.0",
-    "typedoc": "^0.7.1",
+    "typedoc": "^0.8.0",
     "typescript": "^2.4.2"
   },
   "typescript": {
