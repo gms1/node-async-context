@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2015",
     "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": false,
@@ -17,15 +17,19 @@
     "preserveConstEnums": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
-    "typeRoots": ["node_modules/@types"],
-    "types": ["node", "jasmine"]
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "types": [
+      "node",
+      "jasmine"
+    ]
   },
-  "include":[
-      "./src/**/*"
+  "include": [
+    "./src/**/*"
   ],
-  "exclude":[
-      "./dist/**/*",
-      "./node_modules/**/*"
+  "exclude": [
+    "./dist/**/*",
+    "./node_modules/**/*"
   ]
-
 }

@@ -17,11 +17,12 @@
     "no-non-null-assertion": true,
 
     "no-reference": true,
+    "no-unnecessary-type-assertion": true,
     "no-var-requires": true,
     "only-arrow-functions": [true, "allow-declarations"],
 
     "prefer-for-of": true,
-    "promise-function-async": false,
+    "promise-function-async": true,
     "typedef": [
       true, "call-signature", "parameter", "property-declaration","member-variable-declaration"],
 
@@ -91,9 +92,11 @@
 
     "triple-equals": [true, "allow-null-check"],
     "typeof-compare": true,
+    "use-default-type-parameter": true,
     "use-isnan": true,
 
     "cyclomatic-complexity": [true],
+    "deprecation": true,
     "eofline": true,
     "indent": [true, "spaces"],
 
@@ -153,6 +156,7 @@
     "prefer-method-signature": true,
 
     "quotemark": [true, "single", "avoid-escape"],
+    "return-undefined": true,
     "semicolon": [true, "always"],
     "space-before-function-paren": false,
 

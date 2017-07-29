@@ -17,6 +17,7 @@
     "no-non-null-assertion": true,
 
     "no-reference": true,
+    "no-unnecessary-type-assertion": false,
     "no-var-requires": true,
     "only-arrow-functions": [true, "allow-declarations"],
 
@@ -91,9 +92,11 @@
 
     "triple-equals": [true, "allow-null-check"],
     "typeof-compare": true,
+    "use-default-type-parameter": false,
     "use-isnan": true,
 
     "cyclomatic-complexity": [true],
+    "deprecation": false,
     "eofline": true,
     "indent": [true, "spaces"],
 
@@ -153,6 +156,7 @@
     "prefer-method-signature": true,
 
     "quotemark": [true, "single", "avoid-escape"],
+    "return-undefined": false,
     "semicolon": [true, "always"],
     "space-before-function-paren": false,
 
