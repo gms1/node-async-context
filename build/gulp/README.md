@@ -115,6 +115,30 @@ all other properties are dependend on the specific task type
         watch: false
       }
 ```
+### Replace in files
+
+#### properies: 
+* src:  glob or array of globs relative to the root directory
+* base?: base path relative to the root directory
+* out:  the output folder relative to the root directory
+* watch?: optional boolean value to indicate if src should be watched by the watch-task
+* search:  string or regex
+* replace: string
+
+#### sample:
+
+```javascript
+      operation: {
+        type: 'replace',
+        src: '**/*.js',
+        base: '.',
+        out: '.',
+        search: /foo/,
+        replace: 'bar'
+        watch: false
+      }
+```
+
 ### copy files
 
 #### properies: 

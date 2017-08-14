@@ -19,6 +19,7 @@ var TaskBuilder = (function() {
   TaskBuilder.prototype.operationTypes = {
     'delete': 'OperationDelete',
     'jsonTransform': 'OperationJsonTransform',
+    'replace': 'OperationReplace',
     'copyFile': 'OperationCopyFile',
     'execute': 'OperationExecute',
     'jasmine': 'OperationJasmine',
@@ -27,7 +28,7 @@ var TaskBuilder = (function() {
     'typescript': 'OperationTSCompile',
     'tslint': 'OperationTSLint',
     'sorcery': 'OperationSorcery',
-    'sequence': 'OperationTaskSequence'
+    'sequence': 'OperationTaskSequence',
   };
 
   function TaskBuilder(config) {
