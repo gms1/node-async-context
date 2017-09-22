@@ -22,13 +22,13 @@ var OperationRollup = (function() {
 
 
     this.rollupConfig = require(this.rollupConfigFilePath);
-    if (!this.rollupConfig.dest) {
-      throw new Error(`OperationRollup: 'dest' is not defined in '${this.rollupConfig}'`);
+    if (!this.rollupConfig.output.file)  {
+      throw new Error(`OperationRollup: 'output.file' is not defined in '${this.rollupConfig}'`);
     }
   };
 
   OperationRollup.prototype.std = function() {
-    return rollup.rollup(this.rollupConfig).then((bundle) => { return bundle.write(this.rollupConfig); });
+    return rollup.rollup(this.rollupConfig).then((bundle) => { return bundle.write(this.rollupConfig.output); });
   };
 
   OperationRollup.prototype.minified = function() {
@@ -36,8 +36,7 @@ var OperationRollup = (function() {
 
     rollupConfigMinified.plugins = [].concat(rollupConfigMinified.plugins);
     rollupConfigMinified.plugins.push(uglify({output: {comments: (node, comment) => comment.value.startsWith('!')}}));
-    rollupConfigMinified.dest = rollupConfigMinified.dest.replace(/\.js$/, '.min.js');
-
+    rollupConfigMinified.output.file = rollupConfigMinified.output.file.replace(/\.js$/, '.min.js');
     return rollup.rollup(rollupConfigMinified).then((bundle) => { return bundle.write(rollupConfigMinified); });
   };
 
