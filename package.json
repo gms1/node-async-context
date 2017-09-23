@@ -38,7 +38,7 @@
     "release:publish": "npm run typedoc && cd dist && npm --access public publish"
   },
   "dependencies": {
-    "stack-chain": "^1.3.7"
+    "stack-chain": "^2.0.0"
   },
   "devDependencies": {
     "@types/jasmine": "^2.6.0",
