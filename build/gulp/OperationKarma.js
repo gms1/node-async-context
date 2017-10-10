@@ -4,7 +4,7 @@ const karmaServer = require('karma').Server;
 const karmaStopper = require('karma').stopper;
 const path = require('path');
 
-const defaultTimeout = 10000;
+const defaultTimeout = 20000;
 
 var OperationKarma = (function() {
   function OperationKarma(config, op) {

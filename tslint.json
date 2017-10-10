@@ -101,7 +101,7 @@
     "indent": [true, "spaces"],
 
 
-    "linebreak-style": [true, "LF"],
+    "linebreak-style": [false],
     "max-classes-per-file": [true, 3],
     "max-file-line-count": [false],
 
