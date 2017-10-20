@@ -21,7 +21,7 @@ var OperationSorcery = (function() {
           console.log(`OperationSorcery: failed to read '${this.op.file}': no data`);
           return;
         })
-        .catch((e) => { console.log(`OperationSorcery: failed to read '${this.op.file}': no load`); });
+        .catch((e) => { console.log(`OperationSorcery: failed to load '${this.op.file}': ${e}`); });
   };
 
 

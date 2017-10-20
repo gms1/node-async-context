@@ -1,10 +1,15 @@
 'use strict';
 
-const karmaServer = require('karma').Server;
+const KarmaServer = require('karma').Server;
 const karmaStopper = require('karma').stopper;
 const path = require('path');
 
-const defaultTimeout = 20000;
+const defaultTimeout = 100000;
+
+// I have a similar issue, but this is alread closed:
+// Karma doesn't exit properly when using public api with the finish callback #1035
+// https://github.com/karma-runner/karma/issues/1035
+
 
 var OperationKarma = (function() {
   function OperationKarma(config, op) {
@@ -25,31 +30,21 @@ var OperationKarma = (function() {
     this.karmaConfigFilePath = path.join(this.config.rootDir, this.op.karmaConfigFile);
   };
 
-  OperationKarma.prototype.waitTimeout = function() {
-    return new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, this.timeout); });
-  };
-
   OperationKarma.prototype.start = function() {
     return new Promise((resolve, reject) => {
-      karmaServer.start({configFile: this.karmaConfigFilePath, singleRun: true}, (exitCode) => {
-        if (!exitCode) {
-          return resolve();
-        } else {
-          return reject(new Error(`OperationKarma: exited with ${exitCode}`));
-        }
-      });
+      var server =
+          new KarmaServer({configFile: this.karmaConfigFilePath, singleRun: true, retryLimit: 0}, (exitCode) => {
+            if (!exitCode) {
+              return resolve();
+            } else {
+              return reject(new Error(`OperationKarma: exited with ${exitCode}`));
+            }
+          });
+      server.start();
     });
   };
 
-  OperationKarma.prototype.run = function() {
-    return Promise.race([
-      this.start(), this.waitTimeout().then(() => {
-        var sec = this.timeout / 1000;
-        // karmaStopper.stop({configFile: this.karmaConfigFilePath});
-        throw new Error(`OperationKarma: timed out after ${sec} seconds`);
-      })
-    ])
-  };
+  OperationKarma.prototype.run = function() { return this.start(); };
 
   OperationKarma.prototype.watch = function() { return []; };
 
