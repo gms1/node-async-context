@@ -38,7 +38,8 @@
     "release:publish": "npm run typedoc && cd dist && npm --access public publish"
   },
   "dependencies": {
-    "stack-chain": "^2.0.0"
+    "stack-chain": "^2.0.0",
+    "semver": "^5.4.1"
   },
   "devDependencies": {
     "@types/jasmine": "^2.6.0",
@@ -58,7 +59,7 @@
     "jasmine-spec-reporter": "^4.2.1",
     "merge-stream": "^1.0.1",
     "run-sequence": "^2.2.0",
-    "tslint": "^5.7.0",
+    "tslint": "^5.8.0",
     "typedoc": "^0.9.0",
     "typescript": "^2.5.3"
   },

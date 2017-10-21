@@ -1,6 +1,7 @@
 {
   "rules": {
     "adjacent-overload-signatures": true,
+    "ban-comma-operator": true,
     "ban-types": false,
     "member-access": false,
 
@@ -15,6 +16,7 @@
     "no-magic-numbers": false,
     "no-namespace": true,
     "no-non-null-assertion": true,
+    "no-parameter-reassignment": false,
 
     "no-reference": true,
     "no-unnecessary-type-assertion": true,
@@ -54,6 +56,7 @@
     "no-construct": true,
     "no-debugger": false,
     "no-duplicate-super": true,
+    "no-duplicate-switch-case": true,
 
     "no-duplicate-variable": true,
     "no-empty": false,
@@ -61,18 +64,24 @@
 
     "no-floating-promises": [true],
     "no-for-in-array": true,
+    "no-implicit-dependencies": true,
     "no-inferred-empty-object-type": true,
 
     "no-invalid-this": [true, "check-function-in-method"],
     "no-misused-new": true,
     "no-null-keyword": true,
+    "no-object-literal-type-assertion": true,
+    "no-return-await": true,
 
     "no-shadowed-variable": true,
     "no-string-literal": true,
     "no-string-throw": true,
+    "no-submodule-imports": false,
 
     "no-switch-case-fall-through": true,
+    "no-this-assignment": [true, {"allowed-names": ["^self$"], "allow-destructuring": true}],
     "no-unbound-method": true,
+    "no-unnecessary-class": true,
     "no-unsafe-any": false,
 
     "no-unsafe-finally": true,
@@ -83,11 +92,12 @@
     "no-var-keyword": true,
 
     "no-void-expression": false,
+    "prefer-conditional-expression": [true, "check-else-if"],
     "radix": true,
     "restrict-plus-operands": true,
 
     "strict-boolean-expressions": false,
-    "strict-type-predicates": true,
+    "strict-type-predicates": false,
     "switch-default": false,
 
     "triple-equals": [true, "allow-null-check"],
@@ -107,6 +117,7 @@
 
     "max-line-length": [true, 250],
     "no-default-export": true,
+    "no-duplicate-imports": true,
     "no-mergeable-namespace": true,
 
     "no-require-imports": true,
@@ -130,8 +141,8 @@
     "import-spacing": true,
     "interface-name": [true, "never-prefix"],
     "interface-over-type-literal": true,
+    "jsdoc-format": false,
 
-    "jsdoc-format": true,
     "match-default-export-name": true,
     "newline-before-return": false,
 
@@ -141,6 +152,7 @@
 
     "no-consecutive-blank-lines": [false],
     "no-parameter-properties": false,
+    "no-redundant-jsdoc": false,
     "no-trailing-whitespace": true,
 
     "no-unnecessary-initializer": true,
@@ -159,6 +171,7 @@
     "return-undefined": true,
     "semicolon": [true, "always"],
     "space-before-function-paren": false,
+    "space-within-parens": false,
 
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"],
     "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"]

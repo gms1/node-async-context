@@ -1,10 +1,12 @@
-// tslint:disable: no-null-keyword
-// tslint:disable: no-require-imports no-var-requires
+// tslint:disable no-null-keyword
+// tslint:disable no-require-imports no-var-requires
 
 const semver = require('semver');
 const nodeVersion = process.versions.node;
 let asyncHooks: any;
+// tslint:disable-next-line prefer-conditional-expression
 if (semver.gte(nodeVersion, '8.0.0')) {
+  // tslint:disable-next-line no-implicit-dependencies
   asyncHooks = require('async_hooks');
 } else {
   asyncHooks = require('./fake_async_hooks');
