@@ -92,7 +92,7 @@
     "no-var-keyword": true,
 
     "no-void-expression": false,
-    "prefer-conditional-expression": [true, "check-else-if"],
+    "prefer-conditional-expression": false,
     "radix": true,
     "restrict-plus-operands": false,
 
