@@ -22,13 +22,23 @@ var OperationRollup = (function() {
 
 
     this.rollupConfig = require(this.rollupConfigFilePath);
-    if (!this.rollupConfig.output.file)  {
+    if (!this.rollupConfig.output.file) {
       throw new Error(`OperationRollup: 'output.file' is not defined in '${this.rollupConfig}'`);
+    }
+
+    if (this.op.sorcery) {
+      this.build_sorcery = require('./build_sorcery').build_sorcery;
     }
   };
 
   OperationRollup.prototype.std = function() {
-    return rollup.rollup(this.rollupConfig).then((bundle) => { return bundle.write(this.rollupConfig.output); });
+    if (this.op.sorcery) {
+      return rollup.rollup(this.rollupConfig)
+          .then((bundle) => { return bundle.write(this.rollupConfig.output); })
+          .then(() => { return this.build_sorcery(this.rollupConfig.output.file); });
+    } else {
+      return rollup.rollup(this.rollupConfig).then((bundle) => { return bundle.write(this.rollupConfig.output); });
+    }
   };
 
   OperationRollup.prototype.minified = function() {
@@ -37,7 +47,13 @@ var OperationRollup = (function() {
     rollupConfigMinified.plugins = [].concat(rollupConfigMinified.plugins);
     rollupConfigMinified.plugins.push(uglify({output: {comments: (node, comment) => comment.value.startsWith('!')}}));
     rollupConfigMinified.output.file = rollupConfigMinified.output.file.replace(/\.js$/, '.min.js');
-    return rollup.rollup(rollupConfigMinified).then((bundle) => { return bundle.write(rollupConfigMinified); });
+    if (this.op.sorcery) {
+      return rollup.rollup(rollupConfigMinified)
+          .then((bundle) => { return bundle.write(rollupConfigMinified); })
+          .then(() => { return this.build_sorcery(rollupConfigMinified.output.file); });
+    } else {
+      return rollup.rollup(rollupConfigMinified).then((bundle) => { return bundle.write(rollupConfigMinified); });
+    }
   };
 
   OperationRollup.prototype.run = function() {

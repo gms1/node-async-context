@@ -97,17 +97,18 @@ var OperationTSCompile = (function() {
         }))
         .pipe(gulp.dest(tsOutDir))
         .on('finish', function() {
-          if (self.config.options.has('continue')) {
-            // hack to continue on error
-            gulpLog.info('ignoring TS error');
-            this.emit('end');
-          }
-          // hack to to fail with error on error (error already cleared by gulp-typescript)
+          // hack to fail with error (error already cleared by gulp-typescript)
           if (gotError) {
-            var err = new Error('Typescript transpile failed');
-            err.showStack = false;
-            this.emit('error', err);
+            if (self.config.options.has('continue')) {
+              // hack to continue on error
+              gulpLog.info('ignoring TS error');
+            } else {
+              var err = new Error('Typescript transpile failed');
+              err.showStack = false;
+              this.emit('error', err);
+            }
           }
+          this.emit('end');
         });
   };
 

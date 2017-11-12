@@ -12,17 +12,7 @@ var OperationSorcery = (function() {
     }
   };
 
-  OperationSorcery.prototype.run = function() {
-    return sorcery.load(this.op.file)
-        .then(function(chain) {
-          if (chain) {
-            return chain.write();
-          }
-          console.log(`OperationSorcery: failed to read '${this.op.file}': no data`);
-          return;
-        })
-        .catch((e) => { console.log(`OperationSorcery: failed to load '${this.op.file}': ${e}`); });
-  };
+  OperationSorcery.prototype.run = function() { return build_sorcery(this.op.file); };
 
 
   OperationSorcery.prototype.watch = function() { return []; };

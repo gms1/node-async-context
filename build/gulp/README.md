@@ -226,6 +226,7 @@ requires the following additional packages:
 #### properies: 
 * rollupConfigFile: path to the Rollup configuration file, relative to the root directory
 * addMinified?: create an additional minified bundle using the same configuration otherwise
+* sorcery: resolve  chain of sourcemaps back to the original source
 
 #### sample:
 
