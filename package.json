@@ -44,24 +44,24 @@
   "devDependencies": {
     "@types/jasmine": "^2.8.3",
     "@types/node": "^8.5.2",
-    "@types/reflect-metadata": "^0.0.5",
+    "@types/reflect-metadata": "^0.1.0",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
-    "gulp-jasmine": "^2.4.2",
+    "gulp-jasmine": "^3.0.0",
     "gulp-json-transform": "^0.4.5",
     "gulp-options": "^1.1.1",
-    "gulp-sourcemaps": "^2.6.2",
+    "gulp-sourcemaps": "^2.6.3",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.3",
     "gulp-watch": "^4.3.11",
     "jasmine": "^2.8.0",
     "jasmine-spec-reporter": "^4.2.1",
     "merge-stream": "^1.0.1",
-    "run-sequence": "^2.2.0",
+    "run-sequence": "^2.2.1",
     "tslint": "^5.8.0",
     "typedoc": "^0.9.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.2"
   },
   "typescript": {
     "definition": "./index.d.ts"
