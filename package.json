@@ -44,7 +44,6 @@
   "devDependencies": {
     "@types/jasmine": "^2.8.3",
     "@types/node": "^8.5.7",
-    "@types/reflect-metadata": "^0.1.0",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
