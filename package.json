@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "^2.8.3",
-    "@types/node": "^8.5.7",
+    "@types/node": "^9.3.0",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
