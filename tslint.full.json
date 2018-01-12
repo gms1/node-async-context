@@ -101,7 +101,6 @@
     "switch-default": false,
 
     "triple-equals": [true, "allow-null-check"],
-    "typeof-compare": true,
     "use-default-type-parameter": true,
     "use-isnan": true,
 
