@@ -54,7 +54,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^4.0.0-alpha.1",
     "gulp-watch": "^5.0.0",
-    "jasmine": "^2.9.0",
+    "jasmine": "^3.0.0",
     "jasmine-spec-reporter": "^4.2.1",
     "merge-stream": "^1.0.1",
     "run-sequence": "^2.2.1",
