@@ -47,10 +47,10 @@ interface HookInfo<T> {
  * @template T
  */
 export class ContinuationLocalStorage<T> {
-  private _currId: number;
+  private _currId!: number;
   public get currId(): number { return this._currId; }
 
-  private idHookMap: Map<number, HookInfo<T>>;
+  private idHookMap!: Map<number, HookInfo<T>>;
 
   private hookFuncs: HookFuncs;
 

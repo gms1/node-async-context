@@ -1,7 +1,7 @@
 import {ContinuationLocalStorage} from '../ContinuationLocalStorage';
 
 class MyLocalStorage {
-  value: number;
+  value?: number;
 }
 
 let cls = new ContinuationLocalStorage<MyLocalStorage>();
