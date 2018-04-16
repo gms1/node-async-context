@@ -47,7 +47,7 @@
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
-    "gulp-jasmine": "^3.0.0",
+    "gulp-jasmine": "^4.0.0",
     "gulp-json-transform": "^0.4.5",
     "gulp-options": "^1.1.1",
     "gulp-sourcemaps": "^2.6.4",
