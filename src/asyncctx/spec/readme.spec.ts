@@ -1,10 +1,11 @@
+// tslint:disable prefer-const
 import {ContinuationLocalStorage} from '../ContinuationLocalStorage';
 
 class MyLocalStorage {
   value?: number;
-}
+  }
 
-let cls = new ContinuationLocalStorage<MyLocalStorage>();
+const cls = new ContinuationLocalStorage<MyLocalStorage>();
 cls.disable();
 
 cls.setRootContext({value: 1});
@@ -29,16 +30,12 @@ describe('testing readme sample', () => {
       debugId('TICK 1.0.0 START');
       let curr1 = cls.getContext();  // value is 1
       expect(curr1 ? curr1.value : undefined).toBe(1);
-      cls.setContext({
-        value: 2
-      });  // value should be 2 in the current execution context and below
+      cls.setContext({value: 2});  // value should be 2 in the current execution context and below
       process.nextTick(() => {
         debugId('TICK 1.1.0 START');
         let curr2 = cls.getContext();  // value is 2
         expect(curr2 ? curr2.value : undefined).toBe(2);
-        cls.setContext({
-          value: 3
-        });  // value should be 3 in the current execution context and below
+        cls.setContext({value: 3});  // value should be 3 in the current execution context and below
         process.nextTick(() => {
           debugId('TICK 1.1.1 START');
           let curr3 = cls.getContext();  // value is 3

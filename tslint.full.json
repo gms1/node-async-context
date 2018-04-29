@@ -10,7 +10,11 @@
     "no-empty-interface": true,
 
     "no-import-side-effect": true,
-    "no-inferrable-types": [false],
+    "no-inferrable-types": [
+      true,
+      "ignore-params",
+      "ignore-properties"
+    ],
     "no-internal-module": true,
 
     "no-magic-numbers": false,
@@ -121,7 +125,7 @@
 
     "no-require-imports": true,
     "object-literal-sort-keys": false,
-    "prefer-const": false,
+    "prefer-const": true,
 
     "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
 

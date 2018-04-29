@@ -3,14 +3,14 @@ import * as fs from 'fs';
 
 import {ContinuationLocalStorage} from '../ContinuationLocalStorage';
 
-let clsOld: ContinuationLocalStorage<Number> = new ContinuationLocalStorage<Number>();
+const clsOld: ContinuationLocalStorage<Number> = new ContinuationLocalStorage<Number>();
 
 let clsNew: ContinuationLocalStorage<Number>;
 
 let cls: ContinuationLocalStorage<Number>;
 
-let DODEBUG = 0;
-let nodeproc: any = process;
+const DODEBUG = 0;
+const nodeproc: any = process;
 
 function debugId(prefix: string): void {
   if (!DODEBUG) {
@@ -294,7 +294,9 @@ describe('test continuation but enable hooks right before each test:', () => {
                       expect(innerId).toBe(startId, `inner id (${innerId}) is not the expected start id (${startId})`);
                       resolve2(42);
                     })
-                 .then(() => { resolve1(24); });  // <= resolving is requried
+                 .then(() => {
+                   resolve1(24);
+                 });  // <= resolving is requried
            })
         .catch((err) => {
           cls.disable();
@@ -547,7 +549,9 @@ describe('test continuation with hooks enabled long before running these tests:'
           done();
           return val;
         })
-        .catch((err) => { fail(err); });
+        .catch((err) => {
+          fail(err);
+        });
   });
 
 
@@ -569,10 +573,16 @@ describe('test continuation with hooks enabled long before running these tests:'
                       resolve2(42);
                       // done();
                     })
-                 .then(() => { resolve1(24); });  // <= resolving is requried
+                 .then(() => {
+                   resolve1(24);
+                 });  // <= resolving is requried
            })
-        .catch((err) => { fail(err); })
-        .then((val) => { done(); });
+        .catch((err) => {
+          fail(err);
+        })
+        .then((val) => {
+          done();
+        });
   });
 
 

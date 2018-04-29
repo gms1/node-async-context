@@ -16,7 +16,7 @@ interface ExternalHooks {
   before(id: number): void;
   after(id: number): void;
   destroy(id: number): void;
-}
+  }
 
 class FakeAsyncHooks {
   private static internalHooksEnabled: boolean = false;
@@ -49,7 +49,7 @@ class FakeAsyncHooks {
       post: (id: number): void => {
         if (id === this.currId) {
           this.currId = ROOT_UID;
-        }
+          }
         if (this.enabled) {
           this.externalHooks.after(id);
         }
@@ -70,10 +70,14 @@ class FakeAsyncHooks {
       FakeAsyncHooks.internalHooksEnabled = true;
     }
   }
-  disable(): void { this.enabled = false; }
+  disable(): void {
+    this.enabled = false;
+  }
 
-  dispose(): void { asyncHook.removeHooks(this.internalHooks); }
-}
+  dispose(): void {
+    asyncHook.removeHooks(this.internalHooks);
+  }
+  }
 
 
 export function createHook(hooks: any): any {

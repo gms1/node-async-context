@@ -22,9 +22,9 @@ interface HookFuncs {
 interface HookInstance {
   enable(): void;
   disable(): void;
-}
+  }
 
-let nodeproc: any = process;
+const nodeproc: any = process;
 
 const ROOT_ID = 1;
 
@@ -36,7 +36,7 @@ interface HookInfo<T> {
   oriTriggerId?: number;
   activated: boolean;
   data?: T;
-}
+  }
 
 
 /**
@@ -48,7 +48,9 @@ interface HookInfo<T> {
  */
 export class ContinuationLocalStorage<T> {
   private _currId!: number;
-  public get currId(): number { return this._currId; }
+  public get currId(): number {
+    return this._currId;
+  }
 
   private idHookMap!: Map<number, HookInfo<T>>;
 
@@ -72,7 +74,7 @@ export class ContinuationLocalStorage<T> {
           // NOTES: this should not happen
           // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not defined`);
           triggerId = this._currId;
-        }
+          }
         let triggerHook = this.idHookMap.get(triggerId);
         if (!triggerHook) {
           // NOTES: this is expected
@@ -96,7 +98,7 @@ export class ContinuationLocalStorage<T> {
       before: (id) => {
         // an async handle starts
         this._currId = id;
-        let hi = this.idHookMap.get(id);
+        const hi = this.idHookMap.get(id);
         if (hi) {
           if (!hi.activated) {
             hi.data = hi.triggerHook ? hi.triggerHook.data : undefined;
@@ -135,7 +137,7 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T|undefined)}
    */
   public getContext(): T|undefined {
-    let hi = this.idHookMap.get(this.currId);
+    const hi = this.idHookMap.get(this.currId);
     return hi ? hi.data : undefined;
   }
 
@@ -146,7 +148,7 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T)}
    */
   public setContext(value: T): T {
-    let hi = this.idHookMap.get(this.currId);
+    const hi = this.idHookMap.get(this.currId);
     if (!hi) {
       throw new Error('setContext must be called in an async context!');
     }
@@ -160,10 +162,10 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T|undefined)}
    */
   public getRootContext(): T|undefined {
-    let hi = this.idHookMap.get(ROOT_ID);
+    const hi = this.idHookMap.get(ROOT_ID);
     if (!hi) {
       throw new Error('internal error: root node not found (1)!');
-    }
+      }
     return hi ? hi.data : undefined;
   }
 
@@ -174,7 +176,7 @@ export class ContinuationLocalStorage<T> {
    * @returns {(T)}
    */
   public setRootContext(value: T): T {
-    let hi = this.idHookMap.get(ROOT_ID);
+    const hi = this.idHookMap.get(ROOT_ID);
     if (!hi) {
       throw new Error('internal error: root node not found (2)!');
     }
@@ -190,7 +192,7 @@ export class ContinuationLocalStorage<T> {
    * @returns {(number|undefined)}
    */
   public getTriggerId(id: number = this.currId): number|undefined {
-    let hi = this.idHookMap.get(id);
+    const hi = this.idHookMap.get(id);
     return hi ? hi.triggerId : undefined;
   }
 
@@ -203,10 +205,10 @@ export class ContinuationLocalStorage<T> {
    * @param {number} [id=this.currId]
    */
   public debugId(prefix: string, id: number = this.currId): void {
-    let hi = this.idHookMap.get(id);
+    const hi = this.idHookMap.get(id);
     if (hi) {
-      let data: string = 'undefined';
-      let oriTriggerId = hi.oriTriggerId ? hi.oriTriggerId : 1;
+      let data = 'undefined';
+      const oriTriggerId = hi.oriTriggerId ? hi.oriTriggerId : 1;
       if (hi.data) {
         try {
           data = JSON.stringify(hi.data);
@@ -246,7 +248,9 @@ export class ContinuationLocalStorage<T> {
    * disable
    *
    */
-  public disable(): void { this.hookInstance.disable(); }
+  public disable(): void {
+    this.hookInstance.disable();
+  }
 
 
   protected initMap(value?: T): void {
