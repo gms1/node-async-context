@@ -108,7 +108,7 @@
     "use-default-type-parameter": true,
     "use-isnan": true,
 
-    "cyclomatic-complexity": [true],
+    "cyclomatic-complexity": [true, 18],
     "deprecation": true,
     "eofline": true,
     "indent": [true, "spaces"],
