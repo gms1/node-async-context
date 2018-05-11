@@ -585,5 +585,4 @@ describe('test continuation with hooks enabled long before running these tests:'
         });
   });
 
-
 });

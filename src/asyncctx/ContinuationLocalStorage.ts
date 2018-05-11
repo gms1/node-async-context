@@ -9,6 +9,7 @@ if (semver.gte(nodeVersion, '8.0.0')) {
   // tslint:disable-next-line no-implicit-dependencies
   asyncHooks = require('async_hooks');
 } else {
+  /* istanbul ignore next */
   asyncHooks = require('./fake_async_hooks');
 }
 
@@ -69,7 +70,7 @@ export class ContinuationLocalStorage<T> {
         // a new async handle gets initialized:
 
         const oriTriggerId = triggerId;
-        // tslint:disable-next-line strict-type-predicates
+        /* istanbul ignore if  */
         if (triggerId == null) {
           // NOTES: this should not happen
           // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not defined`);
@@ -120,7 +121,9 @@ export class ContinuationLocalStorage<T> {
         // an async handle gets destroyed
         // this.debugId('destroy', id);
         if (this.idHookMap.has(id)) {
+          /* istanbul ignore if  */
           if (id === this._currId) {
+            // NOTES: this should not happen
             nodeproc._rawDebug(`asyncctx: destroy hook called for current context (id: ${this.currId})!`);
           }
           this.idHookMap.delete(id);
@@ -163,7 +166,9 @@ export class ContinuationLocalStorage<T> {
    */
   public getRootContext(): T|undefined {
     const hi = this.idHookMap.get(ROOT_ID);
+    /* istanbul ignore if  */
     if (!hi) {
+      // NOTES: this should not happen
       throw new Error('internal error: root node not found (1)!');
       }
     return hi ? hi.data : undefined;
@@ -177,7 +182,9 @@ export class ContinuationLocalStorage<T> {
    */
   public setRootContext(value: T): T {
     const hi = this.idHookMap.get(ROOT_ID);
+    /* istanbul ignore if  */
     if (!hi) {
+      // NOTES: this should not happen
       throw new Error('internal error: root node not found (2)!');
     }
     hi.data = value;
@@ -199,11 +206,12 @@ export class ContinuationLocalStorage<T> {
 
 
   /**
-   * debug output
+   * debug output for convinient testing purpose
    *
    * @param {string} prefix
    * @param {number} [id=this.currId]
    */
+  /* istanbul ignore next */
   public debugId(prefix: string, id: number = this.currId): void {
     const hi = this.idHookMap.get(id);
     if (hi) {

@@ -16,6 +16,8 @@ npm-debug.log*
 
 /dist
 /docs/typedoc
+/.nyc_output
+/coverage
 .tmp
 
 #---------------------------------------
