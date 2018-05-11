@@ -4,12 +4,11 @@
 const semver = require('semver');
 const nodeVersion = process.versions.node;
 let asyncHooks: any;
-// tslint:disable-next-line prefer-conditional-expression
+/* istanbul ignore else */
 if (semver.gte(nodeVersion, '8.0.0')) {
   // tslint:disable-next-line no-implicit-dependencies
   asyncHooks = require('async_hooks');
 } else {
-  /* istanbul ignore next */
   asyncHooks = require('./fake_async_hooks');
 }
 
@@ -152,6 +151,7 @@ export class ContinuationLocalStorage<T> {
    */
   public setContext(value: T): T {
     const hi = this.idHookMap.get(this.currId);
+    /* istanbul ignore if */
     if (!hi) {
       throw new Error('setContext must be called in an async context!');
     }
@@ -193,11 +193,12 @@ export class ContinuationLocalStorage<T> {
 
 
   /**
-   * Get the id of the caller (for debugging purpose)
+   * Get the id of the caller for debugging purpose
    *
    * @param {number} [id=this.currId]
    * @returns {(number|undefined)}
    */
+  /* istanbul ignore next */
   public getTriggerId(id: number = this.currId): number|undefined {
     const hi = this.idHookMap.get(id);
     return hi ? hi.triggerId : undefined;
@@ -206,7 +207,7 @@ export class ContinuationLocalStorage<T> {
 
 
   /**
-   * debug output for convinient testing purpose
+   * debug output for debugging purpose
    *
    * @param {string} prefix
    * @param {number} [id=this.currId]
