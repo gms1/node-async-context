@@ -1,9 +1,8 @@
 [![npm version](https://badge.fury.io/js/asyncctx.svg)](https://badge.fury.io/js/asyncctx)
+[![Known Vulnerabilities](https://snyk.io/test/github/gms1/node-async-context/badge.svg)](https://snyk.io/test/github/gms1/node-async-context)
 [![Build Status](https://api.travis-ci.org/gms1/node-async-context.svg?branch=master)](https://travis-ci.org/gms1/node-async-context)
 [![Coverage Status](https://img.shields.io/coveralls/github/gms1/node-async-context/master.svg)](https://coveralls.io/github/gms1/node-async-context?branch=master)
 [![Dependency Status](https://david-dm.org/gms1/node-async-context.svg)](https://david-dm.org/gms1/node-async-context)
-[![devDependency Status](https://david-dm.org/gms1/node-async-context/dev-status.svg)](https://david-dm.org/gms1/node-async-context#info=devDependencies)
-[![Known Vulnerabilities](https://snyk.io/test/github/gms1/node-async-context/badge.svg)](https://snyk.io/test/github/gms1/node-async-context)
 [![Greenkeeper badge](https://badges.greenkeeper.io/gms1/node-async-context.svg)](https://greenkeeper.io/)
 
 # node-async-context (asyncctx)
@@ -54,17 +53,15 @@ process.nextTick(() => {
 
 ## Release Notes
 
-| Release   | Notes                                                                                                                            |
-|-----------|----------------------------------------------------------------------------------------------------------------------------------|
+| Release   | Notes                                                                                   |
+|-----------|-----------------------------------------------------------------------------------------|
+| 1.0.05    | maintenance release
 | 1.0.04    | node 10
 | 1.0.03    | node 9
 | 1.0.02    | maintenance release
-| 1.0.01    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1                                          
-| 1.0.00    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)                                                                    
-| 0.0.06    | maintenance releases                                                                                                             
-| 0.0.05    | async-hook 1.7.1                                                                                                                 |
-| 0.0.01-04 | initial version                                                                                                                  |
+| 1.0.01    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1
+| 1.0.00    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)
+| 0.0.06    | maintenance releases
+| 0.0.05    | async-hook 1.7.1
+| 0.0.01-04 | initial version
 
-## Downloads
-
-[![NPM](https://nodei.co/npm/asyncctx.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/asyncctx)
