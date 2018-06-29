@@ -1,0 +1,15 @@
+#!/bin/bash
+BN=$(basename "$0")
+DN=$(dirname "$0")
+PKGDIR=$(cd "${DN}/../.."; pwd)
+TMPDIR="${PKGDIR}/tmp"
+
+APPMODULE="$1"
+shift
+[ -n "${APPMODULE}" ] || \
+  { echo "${BN}: ERROR: usage error: usage ${BN} module.ts" 2>&2; exit 1; }
+
+[ -f "${PKGDIR}/build/ts/${APPMODULE}" ] || \
+  { echo "${BN}: ERROR: file '${APPMODULE}' not found in '${PKGDIR}/build/ts/'" 2>&2; exit 1; }
+
+"${PKGDIR}/node_modules/.bin/ts-node"  --project="${PKGDIR}/build/ts/tsconfig.json" --cache-directory="${TMPDIR}/cache/ts-node" "${PKGDIR}/build/ts/${APPMODULE}" "$@"

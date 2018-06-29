@@ -1,0 +1,32 @@
+#!/bin/bash
+
+DN=$(dirname "$0")
+BN=$(basename "$0")
+
+PROJ_HOME=$(cd "${DN}/.."; pwd)
+BUILD_SH_HOME="${PROJ_HOME}/build/sh"
+
+. "${DN}/sh/lib.sh"
+
+#---------------------------------------------------------
+[ -f "${DN}/config" ] || die "config '${DN}/config' not found"
+. "${DN}/config"
+
+#---------------------------------------------------------
+if [ $# -ne 1 ]; then
+  errormsg "${BN}: usage error: usage: ${BN} version"
+  exit 1
+fi
+VER=$1
+
+PKGS=()
+PKGS+=( "${PKG_JSONS[@]}" )
+PKGS+=( "${PKG_JSON_LOCKS[@]}" )
+
+pushd "${PROJ_HOME}" &>/dev/null        || die "failed to cwd '${PROJ_HOME}'"
+
+  for file in "${PKGS[@]}"; do
+    ${BUILD_SH_HOME}/tsrun version-bump.ts "${file}" "${VER}"
+  done
+
+popd &>/dev/null
