@@ -7,7 +7,7 @@ default: test
 test:
 	npm run clean
 	npm run build
-	npm run test
+	npm run test:run
 	@echo nodejs=$(NODE_VERSION)
 	@if [ "$(NODE_VERSION)" -gt 6 ]; then npm run coverage:run; fi
 

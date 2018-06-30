@@ -29,7 +29,8 @@
     "clean": "rimraf dist/*",
     "build": "tsc -p tsconfig.json",
     "rebuild": "npm run clean && npm run build",
-    "test": "jasmine './dist/**/*.spec.js'",
+    "test:run": "node spec/jasmine-runner.js",
+    "test": "npm run build && npm run test:run",
     "watch": "tsc -w -p tsconfig.json",
     "coverage:run": "nyc -e .ts -x '**/*.spec.ts' jasmine-ts './src/**/*.spec.ts' --include='./src/**/*.ts' --exclude='./src/**/*.spec.ts'",
     "coverage:report": "nyc report --reporter=text-lcov",
@@ -37,7 +38,7 @@
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
     "typedoc": "typedoc --options typedoc.json --out docs/typedoc/asyncctx --exclude '**/*.spec.ts' src/",
     "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1",
-    "release:build": "npm run clean && npm run build && npm run test && npm run _pubprep",
+    "release:build": "npm run clean && npm run build && npm run test:run && npm run _pubprep",
     "release:publish": "npm run typedoc && cd dist && npm --access public publish",
     "_pubprep": "ts-node --project=build/ts/tsconfig.json --cache-directory=tmp/cache/ts-node build/ts/publish-prepare.ts"
   },
