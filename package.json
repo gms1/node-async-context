@@ -40,7 +40,7 @@
     "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1",
     "release:build": "npm run clean && npm run build && npm run test:run && npm run _pubprep",
     "release:publish": "npm run typedoc && cd dist && npm --access public publish",
-    "_pubprep": "ts-node --project=build/ts/tsconfig.json --cache-directory=tmp/cache/ts-node build/ts/publish-prepare.ts"
+    "_pubprep": "build/sh/tsrun publish-prepare.ts"
   },
   "dependencies": {
     "stack-chain": "^2.0.0",
@@ -49,18 +49,18 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.4",
     "@types/jasmine": "^2.8.8",
-    "@types/node": "^10.5.2",
+    "@types/node": "^10.7.0",
     "coveralls": "^3.0.2",
     "fs-extra": "^7.0.0",
-    "jasmine": "^3.1.0",
+    "jasmine": "^3.2.0",
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-ts": "^0.2.1",
     "nyc": "^12.0.2",
     "rimraf": "^2.6.2",
-    "ts-node": "^7.0.0",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typedoc": "^0.11.1",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0.1"
   },
   "typescript": {
     "definition": "./index.d.ts"
