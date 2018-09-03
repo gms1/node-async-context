@@ -44,23 +44,23 @@
   },
   "dependencies": {
     "stack-chain": "^2.0.0",
-    "semver": "^5.5.0"
+    "semver": "^5.5.1"
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.4",
     "@types/jasmine": "^2.8.8",
-    "@types/node": "^10.7.0",
+    "@types/node": "^10.9.4",
     "coveralls": "^3.0.2",
     "fs-extra": "^7.0.0",
     "jasmine": "^3.2.0",
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-ts": "^0.2.1",
-    "nyc": "^12.0.2",
+    "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typedoc": "^0.11.1",
-    "typescript": "^3.0.1"
+    "typedoc": "^0.12.0",
+    "typescript": "^3.0.3"
   },
   "typescript": {
     "definition": "./index.d.ts"
