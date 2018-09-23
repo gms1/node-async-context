@@ -22,7 +22,7 @@ interface HookFuncs {
 interface HookInstance {
   enable(): void;
   disable(): void;
-  }
+}
 
 const nodeproc: any = process;
 
@@ -36,7 +36,7 @@ interface HookInfo<T> {
   oriTriggerId?: number;
   activated: boolean;
   data?: T;
-  }
+}
 
 
 /**
@@ -54,9 +54,9 @@ export class ContinuationLocalStorage<T> {
 
   private idHookMap!: Map<number, HookInfo<T>>;
 
-  private hookFuncs: HookFuncs;
+  private readonly hookFuncs: HookFuncs;
 
-  private hookInstance: HookInstance;
+  private readonly hookInstance: HookInstance;
 
   /**
    * Creates an instance of ContinuationLocalStorage.
@@ -74,7 +74,7 @@ export class ContinuationLocalStorage<T> {
           // NOTES: this should not happen
           // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not defined`);
           triggerId = this._currId;
-          }
+        }
         let triggerHook = this.idHookMap.get(triggerId);
         if (!triggerHook) {
           // NOTES: this is expected
@@ -170,7 +170,7 @@ export class ContinuationLocalStorage<T> {
     if (!hi) {
       // NOTES: this should not happen
       throw new Error('internal error: root node not found (1)!');
-      }
+    }
     return hi ? hi.data : undefined;
   }
 

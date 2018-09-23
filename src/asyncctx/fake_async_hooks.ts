@@ -16,17 +16,17 @@ interface ExternalHooks {
   before(id: number): void;
   after(id: number): void;
   destroy(id: number): void;
-  }
+}
 
 class FakeAsyncHooks {
   private static internalHooksEnabled: boolean = false;
   private static providers: string[];
 
-  private internalHooks: InternalHooks;
+  private readonly internalHooks: InternalHooks;
   private enabled: boolean;
   private currId: number;
 
-  constructor(private externalHooks: ExternalHooks) {
+  constructor(private readonly externalHooks: ExternalHooks) {
     if (!FakeAsyncHooks.providers) {
       FakeAsyncHooks.providers = Object.keys(asyncHook.providers).map((key) => key);
     }
@@ -49,7 +49,7 @@ class FakeAsyncHooks {
       post: (id: number): void => {
         if (id === this.currId) {
           this.currId = ROOT_UID;
-          }
+        }
         if (this.enabled) {
           this.externalHooks.after(id);
         }
@@ -77,7 +77,7 @@ class FakeAsyncHooks {
   dispose(): void {
     asyncHook.removeHooks(this.internalHooks);
   }
-  }
+}
 
 
 export function createHook(hooks: any): any {
