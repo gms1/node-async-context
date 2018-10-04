@@ -16,10 +16,8 @@ This module allows you to create an asynchronous execution context for JavaScrip
 ## Introduction
 
 To give you an idea of how **asyncctx** is supposed to be used:
- 
 
 ```TypeScript
-
 import { ContinuationLocalStorage } from 'asyncctx';
 
 class MyLocalStorage {
@@ -43,7 +41,6 @@ process.nextTick(() => {
     let curr4 = cls.getContext(); // value is 2
   });
 });
-
 ```
 
 ## License
@@ -54,14 +51,13 @@ process.nextTick(() => {
 ## Release Notes
 
 | Release   | Notes                                                                                   |
-|-----------|-----------------------------------------------------------------------------------------|
-| 1.0.05-08 | maintenance release
-| 1.0.04    | node 10
-| 1.0.03    | node 9
-| 1.0.02    | maintenance release
-| 1.0.01    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1
-| 1.0.00    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)
-| 0.0.06    | maintenance releases
-| 0.0.05    | async-hook 1.7.1
-| 0.0.01-04 | initial version
-
+| --------- | --------------------------------------------------------------------------------------- |
+| 1.0.05-09 | maintenance release                                                                     |
+| 1.0.04    | node 10                                                                                 |
+| 1.0.03    | node 9                                                                                  |
+| 1.0.02    | maintenance release                                                                     |
+| 1.0.01    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1 |
+| 1.0.00    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)                           |
+| 0.0.06    | maintenance releases                                                                    |
+| 0.0.05    | async-hook 1.7.1                                                                        |
+| 0.0.01-04 | initial version                                                                         |
