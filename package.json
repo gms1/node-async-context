@@ -33,7 +33,7 @@
     "test:run": "node spec/jasmine-runner.js",
     "test": "npm run build && npm run test:run",
     "watch": "tsc -w -p tsconfig.json",
-    "coverage:run": "nyc -e .ts -x '**/*.spec.ts' jasmine-ts './src/**/*.spec.ts' --include='./src/**/*.ts' --exclude='./src/**/*.spec.ts'",
+    "coverage:run": "nyc -e .ts -x \"**/*.spec.*\" jasmine-ts \"./src/spec/**/*.spec.ts\"",
     "coverage:report": "nyc report --reporter=text-lcov",
     "coverage:html": "nyc report --reporter=html",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
