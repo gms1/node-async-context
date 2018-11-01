@@ -52,7 +52,7 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                   |
 | --------- | --------------------------------------------------------------------------------------- |
-| 1.0.05-09 | maintenance release                                                                     |
+| 1.0.05-10 | maintenance release                                                                     |
 | 1.0.04    | node 10                                                                                 |
 | 1.0.03    | node 9                                                                                  |
 | 1.0.02    | maintenance release                                                                     |
