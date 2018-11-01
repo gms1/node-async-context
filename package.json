@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/fs-extra": "^5.0.4",
     "@types/jasmine": "^2.8.9",
-    "@types/node": "^10.12.1",
+    "@types/node": "^10.12.2",
     "coveralls": "^3.0.2",
     "fs-extra": "^7.0.0",
     "jasmine": "^3.3.0",
@@ -68,5 +68,10 @@
   },
   "engines": {
     "node": "^4.7 || ^6.9.2 || ^7.3 || ^8.2 || ^9.0 || ^10.0 || ^11.0"
+  },
+  "greenkeeper": {
+    "ignore": [
+      "@types/node"
+    ]
   }
 }
