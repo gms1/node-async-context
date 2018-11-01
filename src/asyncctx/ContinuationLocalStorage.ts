@@ -99,12 +99,14 @@ export class ContinuationLocalStorage<T> {
         // an async handle starts
         this._currId = id;
         const hi = this.idHookMap.get(id);
+        /* istanbul ignore else */
         if (hi) {
           if (!hi.activated) {
             hi.data = hi.triggerHook ? hi.triggerHook.data : undefined;
           }
           hi.activated = true;
         } else {
+          // since node 11 this seems to be not required anymore:
           this._currId = ROOT_ID;
         }
         // this.debugId('before', id);
