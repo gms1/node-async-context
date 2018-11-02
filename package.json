@@ -27,7 +27,7 @@
   "homepage": "https://github.com/gms1/node-async-context",
   "scripts": {
     "clean": "rimraf dist/*",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && cp -a src/asyncctx/async-hook/. dist/async-hook",
     "rebuild": "npm run clean && npm run build",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test:run": "node spec/jasmine-runner.js",
