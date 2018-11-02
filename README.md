@@ -52,6 +52,9 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                   |
 | --------- | --------------------------------------------------------------------------------------- |
+| 2.0.00    | targeting es6; dropped support for nodejs < v8                                          |
+|           | please use asyncctx@<2.0 for nodejs v4 - v11 support                                    |
+| 1.1.00    | fixed support for nodes < v8                                                            |
 | 1.0.05-10 | maintenance release                                                                     |
 | 1.0.04    | node 10                                                                                 |
 | 1.0.03    | node 9                                                                                  |
