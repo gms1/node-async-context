@@ -43,10 +43,6 @@
     "release:publish": "npm run typedoc && cd dist && npm --access public publish",
     "_pubprep": "build/sh/tsrun publish-prepare.ts"
   },
-  "dependencies": {
-    "stack-chain": "^2.0.0",
-    "semver": "^5.6.0"
-  },
   "devDependencies": {
     "@types/fs-extra": "^5.0.4",
     "@types/jasmine": "^2.8.9",
@@ -61,13 +57,13 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typedoc": "^0.13.0",
-    "typescript": "^3.1.5"
+    "typescript": "^3.1.6"
   },
   "typescript": {
     "definition": "./index.d.ts"
   },
   "engines": {
-    "node": "^4.7 || ^6.9.2 || ^7.3 || ^8.2 || ^9.0 || ^10.0 || ^11.0"
+    "node": "^8.2 || ^9.0 || ^10.0 || ^11.0"
   },
   "greenkeeper": {
     "ignore": [

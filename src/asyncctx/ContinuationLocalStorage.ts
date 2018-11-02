@@ -1,16 +1,9 @@
 // tslint:disable no-null-keyword
 // tslint:disable no-require-imports no-var-requires
 
-const semver = require('semver');
-const nodeVersion = process.versions.node;
-let asyncHooks: any;
-/* istanbul ignore else */
-if (semver.gte(nodeVersion, '8.0.0')) {
-  // tslint:disable-next-line no-implicit-dependencies
-  asyncHooks = require('async_hooks');
-} else {
-  asyncHooks = require('./fake_async_hooks');
-}
+// tslint:disable-next-line no-implicit-dependencies
+const asyncHooks = require('async_hooks');
+
 
 interface HookFuncs {
   init(id: number, type: string, triggerId: number): void;
