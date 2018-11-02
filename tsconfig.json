@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "removeComments": false,
@@ -20,6 +20,9 @@
     "strictNullChecks": true,
     "typeRoots": [
       "node_modules/@types"
+    ],
+    "lib": [
+      "es2015"
     ],
     "types": [
       "node",

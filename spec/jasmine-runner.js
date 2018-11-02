@@ -1,7 +1,7 @@
-let Jasmine = require('jasmine');
-let SpecReporter = require('jasmine-spec-reporter').SpecReporter;
+var Jasmine = require('jasmine');
+var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
 
-let jrunner = new Jasmine();
+var jrunner = new Jasmine();
 jrunner.env.clearReporters();           // remove default reporter logs
 jrunner.addReporter(new SpecReporter({  // add jasmine-spec-reporter
   spec: {
