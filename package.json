@@ -1,6 +1,6 @@
 {
   "name": "asyncctx",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "an asynchronous execution context for TypeScript/JavaScript",
   "main": "./index.js",
   "types": "./index.d.ts",
