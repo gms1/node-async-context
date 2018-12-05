@@ -95,7 +95,9 @@ export class ContinuationLocalStorage<T> {
         /* istanbul ignore else */
         if (hi) {
           if (!hi.activated) {
-            hi.data = hi.triggerHook ? hi.triggerHook.data : undefined;
+            const parent = hi.triggerHook;
+            const dataFromAncestor = parent ? this.findActivatedNode(parent).data : undefined;
+            hi.data = dataFromAncestor;
           }
           hi.activated = true;
         } else {
@@ -263,6 +265,18 @@ export class ContinuationLocalStorage<T> {
     this._currId = ROOT_ID;
     if (value) {
       this.setRootContext(value);
+    }
+  }
+
+  private readonly findActivatedNode = (hi: HookInfo<T>): HookInfo<T> => {
+    if (hi.activated) {
+        return hi;
+    } else {
+      if (hi.triggerHook) {
+        return this.findActivatedNode(hi.triggerHook);
+      } else {
+        return this.idHookMap.get(ROOT_ID) as HookInfo<T>;
+      }
     }
   }
 }
