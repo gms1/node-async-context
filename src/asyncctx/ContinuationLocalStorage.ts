@@ -72,7 +72,7 @@ export class ContinuationLocalStorage<T> {
         /* istanbul ignore if  */
         if (triggerId == null) {
           // NOTES: this should not happen
-          // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not defined`);
+          nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId is not defined`);
           triggerId = this._currId;
         }
         let triggerHook = this.idHookMap.get(triggerId);
@@ -81,15 +81,6 @@ export class ContinuationLocalStorage<T> {
           // nodeproc._rawDebug(`init:   id: ${id}: WARNING: triggerId: ${triggerId} is not registered`);
           triggerId = ROOT_ID;
           triggerHook = this.idHookMap.get(triggerId);
-        } else {
-          while (triggerHook.type === 'PROMISE' && !triggerHook.activated &&
-                 this.idHookMap.has(triggerHook.triggerId)) {
-            // NOTES: this is expected
-            // nodeproc._rawDebug(
-            //     `init:   id: ${id}: WARNING: changing trigger from ${triggerId} to ${triggerHook.triggerId}`);
-            triggerId = triggerHook.triggerId;
-            triggerHook = this.idHookMap.get(triggerId) as HookInfo<T>;
-          }
         }
 
         this.idHookMap.set(id, {id, type, triggerId, oriTriggerId, triggerHook, activated: false});
@@ -102,9 +93,12 @@ export class ContinuationLocalStorage<T> {
         /* istanbul ignore else */
         if (hi) {
           if (!hi.activated) {
-            const parent = hi.triggerHook;
-            const dataFromAncestor = parent ? this.findActivatedNode(parent).data : undefined;
-            hi.data = dataFromAncestor;
+            const ancestor = hi.triggerHook ? this.findActivatedNode(hi.triggerHook) : undefined;
+            if (ancestor) {
+              hi.triggerHook = ancestor;
+              hi.triggerId = ancestor.id;
+              hi.data = ancestor.data;
+            }
           }
           hi.activated = true;
         } else {
@@ -277,7 +271,7 @@ export class ContinuationLocalStorage<T> {
 
   private readonly findActivatedNode = (hi: HookInfo<T>): HookInfo<T> => {
     if (hi.activated) {
-        return hi;
+      return hi;
     } else {
       if (hi.triggerHook) {
         return this.findActivatedNode(hi.triggerHook);
