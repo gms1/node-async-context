@@ -25,7 +25,7 @@ interface HookInfo<T> {
   id: number;
   type: string;
   triggerId: number;
-  triggerHook?: HookInfo<T>;
+  triggerHook?: HookInfo<T>; // always defined, except for the root node
   oriTriggerId?: number;
   activated: boolean;
   data?: T;
@@ -86,7 +86,7 @@ export class ContinuationLocalStorage<T> {
         /* istanbul ignore else */
         if (hi) {
           if (!hi.activated) {
-            const ancestor = hi.triggerHook ? this.findActivatedNode(hi.triggerHook) : undefined;
+            const ancestor = this.findActivatedNode(hi.triggerHook as HookInfo<T>);
             if (ancestor) {
               hi.triggerHook = ancestor;
               hi.triggerId = ancestor.id;
@@ -263,14 +263,15 @@ export class ContinuationLocalStorage<T> {
   }
 
   private readonly findActivatedNode = (hi: HookInfo<T>): HookInfo<T> => {
+    /* istanbul ignore if  */
+    if (!hi) {
+      // NOTES: this should not happen
+      // the root-node is always activated and all other nodes should have a valid trigger-node (`triggerHook`)
+      return this.idHookMap.get(ROOT_ID) as HookInfo<T>;
+    }
     if (hi.activated) {
       return hi;
-    } else {
-      if (hi.triggerHook) {
-        return this.findActivatedNode(hi.triggerHook);
-      } else {
-        return this.idHookMap.get(ROOT_ID) as HookInfo<T>;
-      }
     }
+    return this.findActivatedNode(hi.triggerHook as HookInfo<T>);
   }
 }
