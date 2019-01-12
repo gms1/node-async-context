@@ -37,7 +37,7 @@
     "coverage:report": "nyc report --reporter=text-lcov",
     "coverage:html": "nyc report --reporter=html",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "typedoc": "typedoc --options typedoc.json --out docs/typedoc/asyncctx --exclude \"**/*.spec.ts\" src/",
+    "typedoc": "typedoc --options ./typedoc.json --out ./docs/typedoc/asyncctx --exclude \"**/*.spec.ts\" ./src/",
     "prepublishOnly": "echo \"ERROR: please use the dist-folder for publishing\" && exit 1",
     "release:build": "npm run clean && npm run build && npm run test:run && npm run lint && npm run _pubprep",
     "release:publish": "npm run typedoc && cd dist && npm --access public publish",
@@ -55,8 +55,8 @@
     "nyc": "^13.1.0",
     "rimraf": "^2.6.3",
     "ts-node": "^7.0.1",
-    "tslint": "^5.12.0",
-    "typedoc": "^0.14.0",
+    "tslint": "^5.12.1",
+    "typedoc": "^0.14.1",
     "typescript": "^3.2.2"
   },
   "typescript": {
