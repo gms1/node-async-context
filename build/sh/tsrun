@@ -12,4 +12,4 @@ shift
 [ -f "${PKGDIR}/build/ts/${APPMODULE}" ] || \
   { echo "${BN}: ERROR: file '${APPMODULE}' not found in '${PKGDIR}/build/ts/'" 2>&2; exit 1; }
 
-"${PKGDIR}/node_modules/.bin/ts-node"  --project="${PKGDIR}/build/ts/tsconfig.json" --cache-directory="${TMPDIR}/cache/ts-node" "${PKGDIR}/build/ts/${APPMODULE}" "$@"
+"${PKGDIR}/node_modules/.bin/ts-node"  --project="${PKGDIR}/build/ts/tsconfig.json" "${PKGDIR}/build/ts/${APPMODULE}" "$@"
