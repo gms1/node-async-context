@@ -52,6 +52,7 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                   |
 | --------- | --------------------------------------------------------------------------------------- |
+| 1.1.02    | maintenance release                                                                     |
 | 1.1.01    | fixed loosing context; thanks to Pasi Tuominen                                          |
 | 2.0.00    | targeting es6; dropped support for nodejs < v8                                          |
 |           | please use asyncctx@<2.0 for nodejs v4 - v11 support                                    |
