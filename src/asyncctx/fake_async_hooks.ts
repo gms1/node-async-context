@@ -4,12 +4,17 @@ const asyncHook = require('./async-hook/index.js');
 const ROOT_UID = 1;
 
 interface InternalHooks {
-  init(id: number, handle: any, provider: number, triggerId: number|null, parentHandle: any): void;
+  init(
+    id: number,
+    handle: any,
+    provider: number,
+    triggerId: number | null,
+    parentHandle: any,
+  ): void;
   pre(id: number): void;
   post(id: number): void;
   destroy(id: number): void;
 }
-
 
 interface ExternalHooks {
   init(id: number, type: string, triggerId: number): void;
@@ -33,11 +38,21 @@ class FakeAsyncHooks {
     this.enabled = false;
     this.currId = ROOT_UID;
     this.internalHooks = {
-      init: (id: number, handle: any, provider: number, parentId: number | null, parentHandle: any): void => {
+      init: (
+        id: number,
+        handle: any,
+        provider: number,
+        parentId: number | null,
+        parentHandle: any,
+      ): void => {
         // TODO: set type
         if (this.enabled) {
           // tslint:disable-next-line: triple-equals strict-type-predicates no-null-keyword
-          this.externalHooks.init(id, FakeAsyncHooks.providers[provider], parentId !== null ? parentId : this.currId);
+          this.externalHooks.init(
+            id,
+            FakeAsyncHooks.providers[provider],
+            parentId !== null ? parentId : this.currId,
+          );
         }
       },
       pre: (id: number): void => {
@@ -58,7 +73,7 @@ class FakeAsyncHooks {
         if (this.enabled) {
           this.externalHooks.destroy(id);
         }
-      }
+      },
     };
     asyncHook.addHooks(this.internalHooks);
   }
@@ -78,7 +93,6 @@ class FakeAsyncHooks {
     asyncHook.removeHooks(this.internalHooks);
   }
 }
-
 
 export function createHook(hooks: any): any {
   return new FakeAsyncHooks(hooks);
