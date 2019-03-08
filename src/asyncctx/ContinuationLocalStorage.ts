@@ -4,7 +4,6 @@
 // tslint:disable-next-line no-implicit-dependencies
 const asyncHooks = require('async_hooks');
 
-
 interface HookFuncs {
   init(id: number, type: string, triggerId: number): void;
   before(id: number): void;
@@ -30,7 +29,6 @@ interface HookInfo<T> {
   activated: boolean;
   data?: T;
 }
-
 
 /**
  *
@@ -76,7 +74,14 @@ export class ContinuationLocalStorage<T> {
           triggerHook = this.idHookMap.get(triggerId);
         }
 
-        this.idHookMap.set(id, {id, type, triggerId, oriTriggerId, triggerHook, activated: false});
+        this.idHookMap.set(id, {
+          id,
+          type,
+          triggerId,
+          oriTriggerId,
+          triggerHook,
+          activated: false,
+        });
         // this.debugId('init', id);
       },
       before: (id) => {
@@ -114,11 +119,13 @@ export class ContinuationLocalStorage<T> {
           /* istanbul ignore if  */
           if (id === this._currId) {
             // NOTES: this should not happen
-            nodeproc._rawDebug(`asyncctx: destroy hook called for current context (id: ${this.currId})!`);
+            nodeproc._rawDebug(
+              `asyncctx: destroy hook called for current context (id: ${this.currId})!`,
+            );
           }
           this.idHookMap.delete(id);
         }
-      }
+      },
     };
     this.hookInstance = asyncHooks.createHook(this.hookFuncs) as HookInstance;
     this.enable();
@@ -129,7 +136,7 @@ export class ContinuationLocalStorage<T> {
    *
    * @returns {(T|undefined)}
    */
-  public getContext(): T|undefined {
+  public getContext(): T | undefined {
     const hi = this.idHookMap.get(this.currId);
     return hi ? hi.data : undefined;
   }
@@ -155,7 +162,7 @@ export class ContinuationLocalStorage<T> {
    *
    * @returns {(T|undefined)}
    */
-  public getRootContext(): T|undefined {
+  public getRootContext(): T | undefined {
     const hi = this.idHookMap.get(ROOT_ID);
     /* istanbul ignore if  */
     if (!hi) {
@@ -182,7 +189,6 @@ export class ContinuationLocalStorage<T> {
     return value;
   }
 
-
   /**
    * Get the id of the caller for debugging purpose
    *
@@ -190,12 +196,10 @@ export class ContinuationLocalStorage<T> {
    * @returns {(number|undefined)}
    */
   /* istanbul ignore next */
-  public getTriggerId(id: number = this.currId): number|undefined {
+  public getTriggerId(id: number = this.currId): number | undefined {
     const hi = this.idHookMap.get(id);
     return hi ? hi.triggerId : undefined;
   }
-
-
 
   /**
    * debug output for debugging purpose
@@ -217,13 +221,14 @@ export class ContinuationLocalStorage<T> {
         }
       }
       nodeproc._rawDebug(
-          `${prefix}: id: ${id} type: '${hi.type}' triggerId: ${oriTriggerId} data: ${data} for id: ${hi.triggerId}))`);
+        `${prefix}: id: ${id} type: '${hi.type}' triggerId: ${oriTriggerId} data: ${data} for id: ${
+          hi.triggerId
+        }))`,
+      );
     } else {
       nodeproc._rawDebug(`${prefix}: id: ${id}`);
     }
   }
-
-
 
   /**
    * clean up
@@ -233,7 +238,6 @@ export class ContinuationLocalStorage<T> {
     this.disable();
     this.idHookMap.clear();
   }
-
 
   /**
    * enable
@@ -252,10 +256,9 @@ export class ContinuationLocalStorage<T> {
     this.hookInstance.disable();
   }
 
-
   protected initMap(value?: T): void {
     this.idHookMap = new Map<number, HookInfo<T>>();
-    this.idHookMap.set(ROOT_ID, {id: ROOT_ID, type: 'C++', triggerId: 0, activated: true});
+    this.idHookMap.set(ROOT_ID, { id: ROOT_ID, type: 'C++', triggerId: 0, activated: true });
     this._currId = ROOT_ID;
     if (value) {
       this.setRootContext(value);
@@ -273,5 +276,7 @@ export class ContinuationLocalStorage<T> {
       return hi;
     }
     return this.findActivatedNode(hi.triggerHook as HookInfo<T>);
-  }
+    // TODO: prettier adds this unusual semicolon
+    // tslint:disable-next-line semicolon
+  };
 }
