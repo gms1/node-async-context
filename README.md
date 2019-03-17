@@ -52,7 +52,7 @@ process.nextTick(() => {
 
 | Release  | Notes                                                                                   |
 | -------- | --------------------------------------------------------------------------------------- |
-| 2.0.3-4  | maintenance release                                                                     |
+| 2.0.3-5  | maintenance release                                                                     |
 | 2.0.2    | fixed loosing context; thanks to Pasi Tuominen                                          |
 | 2.0.1    | maintenance release                                                                     |
 | 2.0.0    | targeting es2015; dropped support for nodejs < v8                                       |
