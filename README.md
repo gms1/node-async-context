@@ -50,19 +50,19 @@ process.nextTick(() => {
 
 ## Release Notes
 
-| Release   | Notes                                                                                   |
-| --------- | --------------------------------------------------------------------------------------- |
-| 1.1.02    | maintenance release                                                                     |
-| 1.1.01    | fixed loosing context; thanks to Pasi Tuominen                                          |
-| 2.0.00    | targeting es6; dropped support for nodejs < v8                                          |
-|           | please use asyncctx@<2.0 for nodejs v4 - v11 support                                    |
-| 1.1.00    | fixed support for nodes < v8                                                            |
-| 1.0.05-10 | maintenance release                                                                     |
-| 1.0.04    | node 10                                                                                 |
-| 1.0.03    | node 9                                                                                  |
-| 1.0.02    | maintenance release                                                                     |
-| 1.0.01    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1 |
-| 1.0.00    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)                           |
-| 0.0.06    | maintenance releases                                                                    |
-| 0.0.05    | async-hook 1.7.1                                                                        |
-| 0.0.01-04 | initial version                                                                         |
+| Release  | Notes                                                                                   |
+| -------- | --------------------------------------------------------------------------------------- |
+| 1.1.2-3  | maintenance release                                                                     |
+| 1.1.1    | fixed loosing context; thanks to Pasi Tuominen                                          |
+| 2.0.0    | targeting es6; dropped support for nodejs < v8                                          |
+|          | please use asyncctx@<2.0 for nodejs v4 - v11 support                                    |
+| 1.1.0    | fixed support for nodes < v8                                                            |
+| 1.0.5-10 | maintenance release                                                                     |
+| 1.0.4    | node 10                                                                                 |
+| 1.0.3    | node 9                                                                                  |
+| 1.0.2    | maintenance release                                                                     |
+| 1.0.1    | added support for older nodejs versions (4,6,7) using internal copy of async-hook@1.7.1 |
+| 1.0.0    | is now based on 'async_hooks' (a built-in nodejs v8.0 module)                           |
+| 0.0.6    | maintenance releases                                                                    |
+| 0.0.5    | async-hook 1.7.1                                                                        |
+| 0.0.1-4  | initial version                                                                         |
