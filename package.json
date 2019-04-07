@@ -48,20 +48,20 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^5.0.5",
-    "@types/jasmine": "^3.3.10",
-    "@types/node": "^11.11.3",
+    "@types/jasmine": "^3.3.12",
+    "@types/node": "^11.13.0",
     "coveralls": "^3.0.3",
     "fs-extra": "^7.0.1",
-    "jasmine": "^3.3.1",
+    "jasmine": "^3.4.0",
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-ts": "^0.3.0",
     "nyc": "^13.3.0",
     "prettier": "^1.16.4",
     "rimraf": "^2.6.3",
     "ts-node": "^8.0.3",
-    "tslint": "^5.14.0",
+    "tslint": "^5.15.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.4.2"
   },
   "typescript": {
     "definition": "./index.d.ts"
