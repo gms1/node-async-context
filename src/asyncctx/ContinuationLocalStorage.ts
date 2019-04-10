@@ -234,7 +234,6 @@ export class ContinuationLocalStorage<T> {
    * clean up
    */
   public dispose(): void {
-    // asyncHook.removeHooks(this.hooks);
     this.disable();
     this.idHookMap.clear();
   }
