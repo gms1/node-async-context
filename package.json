@@ -47,15 +47,15 @@
     "prettier": "prettier --write 'src/**/*.ts'"
   },
   "devDependencies": {
-    "@types/fs-extra": "^5.0.5",
+    "@types/fs-extra": "^5.1.0",
     "@types/jasmine": "^3.3.12",
-    "@types/node": "^11.13.8",
+    "@types/node": "^12.0.0",
     "coveralls": "^3.0.3",
     "fs-extra": "^7.0.1",
     "jasmine": "^3.4.0",
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-ts": "^0.3.0",
-    "nyc": "^14.0.0",
+    "nyc": "^14.1.0",
     "prettier": "^1.17.0",
     "rimraf": "^2.6.3",
     "ts-node": "^8.1.0",
@@ -68,11 +68,6 @@
   },
   "engines": {
     "node": "^8.2 || ^9.0 || ^10.0 || ^11.0 || ^12.0"
-  },
-  "greenkeeper": {
-    "ignore": [
-      "@types/node"
-    ]
   },
   "dependencies": {}
 }
