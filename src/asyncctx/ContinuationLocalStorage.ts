@@ -222,10 +222,16 @@ export class ContinuationLocalStorage<T> {
       let data = 'undefined';
       const oriTriggerId = hi.oriTriggerId ? hi.oriTriggerId : 1;
       if (hi.data) {
-        try {
-          data = JSON.stringify(hi.data);
-        } catch (_ignore) {
-          data = hi.data.toString();
+        if (typeof hi.data === 'string') {
+          data = hi.data;
+        } else {
+          try {
+            if ((hi.data as any).toString) {
+              data = (hi.data as any).toString();
+            } else {
+              data = JSON.stringify(hi.data);
+            }
+          } catch (_ignore) {}
         }
       }
       nodeproc._rawDebug(
