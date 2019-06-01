@@ -1,0 +1,9 @@
+{
+  "name": "asyncctx",
+  "tsconfig": "tsconfig.json",
+  "output": "docs/asyncctx",
+  "theme": "vagrant",
+  "disablePrivate": true,
+  "disableProtected": true,
+  "disableInternal": true
+}

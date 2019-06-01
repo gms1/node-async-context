@@ -15,7 +15,7 @@ npm-debug.log*
 # compiled output:
 
 /dist
-/docs/typedoc
+/docs/asyncctx
 /.nyc_output
 /coverage
 /tmp
