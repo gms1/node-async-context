@@ -227,9 +227,7 @@ export class ContinuationLocalStorage<T> {
         }
       }
       nodeproc._rawDebug(
-        `${prefix}: id: ${id} type: '${hi.type}' triggerId: ${oriTriggerId} data: ${data} for id: ${
-          hi.triggerId
-        }))`,
+        `${prefix}: id: ${id} type: '${hi.type}' triggerId: ${oriTriggerId} data: ${data} for id: ${hi.triggerId}))`,
       );
     } else {
       nodeproc._rawDebug(`${prefix}: id: ${id}`);
