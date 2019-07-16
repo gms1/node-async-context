@@ -47,16 +47,16 @@
     "prettier": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
-    "semver": "^6.1.1",
+    "semver": "^6.2.0",
     "stack-chain": "^2.0.0"
   },
   "devDependencies": {
-    "@compodoc/compodoc": "^1.1.9",
-    "@types/fs-extra": "^7.0.0",
+    "@compodoc/compodoc": "^1.1.10",
+    "@types/fs-extra": "^8.0.0",
     "@types/jasmine": "^3.3.13",
-    "@types/node": "^12.0.10",
-    "coveralls": "^3.0.4",
-    "fs-extra": "^8.0.1",
+    "@types/node": "^12.6.3",
+    "coveralls": "^3.0.5",
+    "fs-extra": "^8.1.0",
     "jasmine": "^3.4.0",
     "jasmine-spec-reporter": "<4.2",
     "jasmine-ts": "^0.3.0",
@@ -65,7 +65,7 @@
     "rimraf": "^2.6.3",
     "ts-node": "<8",
     "tslint": "^5.18.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "typescript": {
     "definition": "./index.d.ts"
