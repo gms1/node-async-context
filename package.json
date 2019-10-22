@@ -30,10 +30,10 @@
     "build": "tsc -p tsconfig.json",
     "rebuild": "npm run clean && npm run build",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "test:run": "node spec/jasmine-runner.js",
+    "test:run": "jasmine-ts",
     "test": "npm run build && npm run test:run",
     "watch": "tsc -w -p tsconfig.json",
-    "coverage:run": "nyc -e .ts -x \"**/*.spec.*\" jasmine-ts \"./src/spec/**/*.spec.ts\"",
+    "coverage:run": "nyc -e .ts -x \"**/*.spec.ts\" -x \"src/asyncctx/spec/**/*\" jasmine-ts",
     "coverage:report": "nyc report --reporter=text-lcov",
     "coverage:html": "nyc report --reporter=html",
     "coverage:coveralls": "nyc report --reporter=text-lcov | coveralls",
@@ -47,21 +47,21 @@
     "prettier": "prettier --write 'src/**/*.ts'"
   },
   "devDependencies": {
-    "@compodoc/compodoc": "^1.1.10",
-    "@types/fs-extra": "^8.0.0",
-    "@types/jasmine": "^3.4.0",
-    "@types/node": "^12.7.3",
-    "coveralls": "^3.0.6",
+    "@compodoc/compodoc": "^1.1.11",
+    "@types/fs-extra": "^8.0.1",
+    "@types/jasmine": "^3.4.4",
+    "@types/node": "^12.11.2",
+    "coveralls": "^3.0.7",
     "fs-extra": "^8.1.0",
-    "jasmine": "^3.4.0",
+    "jasmine": "^3.5.0",
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-ts": "^0.3.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "rimraf": "^3.0.0",
-    "ts-node": "^8.3.0",
-    "tslint": "^5.19.0",
-    "typescript": "^3.6.2"
+    "ts-node": "^8.4.1",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4"
   },
   "typescript": {
     "definition": "./index.d.ts"
