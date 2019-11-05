@@ -1,0 +1,8 @@
+{
+  "ignore": {
+    "nyc": {
+      "versions": "14.x",
+      "reason": "https://github.com/istanbuljs/nyc/issues/1211"
+    }
+  }
+}
