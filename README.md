@@ -51,6 +51,7 @@ process.nextTick(() => {
 
 | Release  | Notes                                                                                   |
 | -------- | --------------------------------------------------------------------------------------- |
+| 2.0.10   | maintenance release                                                                     |
 | 2.0.9    | node 13 supported                                                                       |
 | 2.0.3-8  | maintenance release                                                                     |
 | 2.0.2    | fixed loosing context; thanks to Pasi Tuominen                                          |
