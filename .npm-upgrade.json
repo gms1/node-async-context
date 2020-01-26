@@ -1,9 +1,5 @@
 {
   "ignore": {
-    "nyc": {
-      "versions": "14.x",
-      "reason": "https://github.com/istanbuljs/nyc/issues/1211"
-    },
     "rimraf": {
       "versions": ">=3.0",
       "reason": "failed using node.js v4"
