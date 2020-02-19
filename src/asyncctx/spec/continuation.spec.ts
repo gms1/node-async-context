@@ -19,6 +19,16 @@ function debugId(prefix: string): void {
   cls.debugId('TEST: ' + prefix);
 }
 
+function triggerHookLength(): number {
+  let hookInfo = cls.getHookInfo();
+  let length = 0;
+  while (hookInfo) {
+    hookInfo = hookInfo.triggerHook;
+    length += 1;
+  }
+  return length;
+}
+
 describe('test continuation but enable hooks right before each test:', () => {
   beforeEach((done) => {
     if (clsNew) {
@@ -380,6 +390,17 @@ describe('test continuation but enable hooks right before each test:', () => {
         done();
       });
   });
+
+  it('continuous local storage should only maintain triggerHook list up to first activated node', (done) => {
+    cls.enable();
+    setImmediate(() => {
+      setImmediate(() => {
+        const length = triggerHookLength();
+        expect(length).toBe(1, `triggerHook length (${length}) is not the expected length (1)`);
+        done();
+      });
+    });
+  });
 });
 
 // #######################################################################################################################
@@ -724,5 +745,15 @@ describe('test continuation with hooks enabled long before running these tests:'
       .then((val) => {
         done();
       });
+  });
+
+  it('continuous local storage should only maintain triggerHook tree up to first activated node', (done) => {
+    setImmediate(() => {
+      setImmediate(() => {
+        const length = triggerHookLength();
+        expect(length).toBe(1, `triggerHook length (${length}) is not the expected length (1)`);
+        done();
+      });
+    });
   });
 });
