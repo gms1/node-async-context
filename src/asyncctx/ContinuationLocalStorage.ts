@@ -99,6 +99,7 @@ export class ContinuationLocalStorage<T> {
             }
           }
           hi.activated = true;
+          hi.triggerHook = undefined;
         } else {
           // since node 11 this seems to be not required anymore:
           this._currId = ROOT_ID;
@@ -199,6 +200,18 @@ export class ContinuationLocalStorage<T> {
   public getTriggerId(id: number = this.currId): number | undefined {
     const hi = this.idHookMap.get(id);
     return hi ? hi.triggerId : undefined;
+  }
+
+  /**
+   * Get the hook info of the caller for testing purposes
+   *
+   * @param {number} [id=this.currId]
+   * @returns {(number|undefined)}
+   */
+  /* istanbul ignore next */
+  public getHookInfo(id: number = this.currId): HookInfo<T> | undefined {
+    const hi = this.idHookMap.get(id);
+    return hi;
   }
 
   /**
