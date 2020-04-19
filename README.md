@@ -51,6 +51,7 @@ process.nextTick(() => {
 
 | Release  | Notes                                                                                   |
 | -------- | --------------------------------------------------------------------------------------- |
+| 2.0.12   | maintenance release                                                                     |
 | 2.0.11   | #54: fixed memory leak for chaining asynchronous calls infinitely; thanks to Reko Tiira |
 | 2.0.10   | maintenance release                                                                     |
 | 2.0.9    | node 13 supported                                                                       |
