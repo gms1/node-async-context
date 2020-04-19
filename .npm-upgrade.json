@@ -1,0 +1,8 @@
+{
+  "ignore": {
+    "prettier": {
+      "versions": ">= 2.0",
+      "reason": ""
+    }
+  }
+}
