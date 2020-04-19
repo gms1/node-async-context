@@ -52,7 +52,7 @@ process.nextTick(() => {
 
 | Release  | Notes                                                                                   |
 | -------- | --------------------------------------------------------------------------------------- |
-| 1.1.8    | maintenance release                                                                     |
+| 1.1.9    | maintenance release                                                                     |
 | 1.1.7    | node 13                                                                                 |
 | 1.1.2-6  | maintenance release                                                                     |
 | 1.1.1    | fixed loosing context; thanks to Pasi Tuominen                                          |
