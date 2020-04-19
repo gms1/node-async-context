@@ -1,12 +1,8 @@
 {
   "ignore": {
-    "rimraf": {
-      "versions": ">=3.0",
-      "reason": "failed using node.js v4"
-    },
-    "semver": {
-      "versions": ">=7.0.0",
-      "reason": "tests are failing on node v4"
+    "prettier": {
+      "versions": ">= 2.0",
+      "reason": ""
     }
   }
 }
