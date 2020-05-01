@@ -3,6 +3,10 @@
     "prettier": {
       "versions": ">= 2.0",
       "reason": ""
+    },
+    "semver": {
+      "versions": ">=7.0",
+      "reason": "not running on node 4"
     }
   }
 }

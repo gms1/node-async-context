@@ -47,15 +47,15 @@
     "prettier": "prettier --write 'src/**/*.ts'"
   },
   "dependencies": {
-    "semver": "^7.3.2",
+    "semver": "<7.0.0",
     "stack-chain": "^2.0.0"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.11",
     "@types/fs-extra": "^8.1.0",
     "@types/jasmine": "^3.5.10",
-    "@types/node": "^13.13.0",
-    "coveralls": "^3.0.11",
+    "@types/node": "^13.13.4",
+    "coveralls": "^3.1.0",
     "fs-extra": "^9.0.0",
     "jasmine": "^3.5.0",
     "jasmine-spec-reporter": "^5.0",
@@ -64,7 +64,7 @@
     "prettier": "^1.19.1",
     "rimraf": "<3.0",
     "ts-node": "<8",
-    "tslint": "^6.1.1",
+    "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
   "typescript": {
