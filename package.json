@@ -48,20 +48,20 @@
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.11",
-    "@types/fs-extra": "^8.1.0",
+    "@types/fs-extra": "^9.0.0",
     "@types/jasmine": "^3.5.10",
-    "@types/node": "^13.13.0",
-    "coveralls": "^3.0.11",
+    "@types/node": "^14.0.1",
+    "coveralls": "^3.1.0",
     "fs-extra": "^9.0.0",
     "jasmine": "^3.5.0",
-    "jasmine-spec-reporter": "^5.0.1",
+    "jasmine-spec-reporter": "^5.0.2",
     "jasmine-ts": "^0.3.0",
     "nyc": "^15.0.1",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
-    "ts-node": "^8.8.2",
-    "tslint": "^6.1.1",
-    "typescript": "^3.8.3"
+    "ts-node": "^8.10.1",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.2"
   },
   "typescript": {
     "definition": "./index.d.ts"
