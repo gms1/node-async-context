@@ -40,7 +40,7 @@ describe('test continuation but enable hooks right before each test:', () => {
     done();
   });
 
-  it('calling process.nextTick should preserve continuation local storage', async (done) => {
+  it('calling process.nextTick should preserve continuation local storage', (done) => {
     cls.enable();
     debugId('process.nextTick: START BEGIN');
     const startId = cls.currId;
@@ -83,7 +83,7 @@ describe('test continuation but enable hooks right before each test:', () => {
     });
   });
 
-  it('calling setImmediate should preserve continuation local storage', async (done) => {
+  it('calling setImmediate should preserve continuation local storage', (done) => {
     cls.enable();
     debugId('setImmediate: START BEGIN');
     const startId = cls.currId;
@@ -126,7 +126,7 @@ describe('test continuation but enable hooks right before each test:', () => {
     });
   });
 
-  it('calling setTimeout should preserve continuation local storage', async (done) => {
+  it('calling setTimeout should preserve continuation local storage', (done) => {
     cls.enable();
     debugId('setTimeout: START BEGIN');
     const startId = cls.currId;
@@ -169,7 +169,7 @@ describe('test continuation but enable hooks right before each test:', () => {
     }, 0);
   });
 
-  it('calling setInterval should preserve continuation local storage', async (done) => {
+  it('calling setInterval should preserve continuation local storage', (done) => {
     cls.enable();
     debugId('setInterval: START BEGIN');
     const startId = cls.currId;
@@ -214,7 +214,7 @@ describe('test continuation but enable hooks right before each test:', () => {
     }, 100);
   });
 
-  it('calling fs should preserve continuation local storage', async (done) => {
+  it('calling fs should preserve continuation local storage', (done) => {
     cls.enable();
     debugId('fs: START BEGIN');
     const startId = cls.currId;
@@ -263,7 +263,7 @@ describe('test continuation but enable hooks right before each test:', () => {
   // so the cls-context inside this executor function is the same as the
   // cls-context of the caller
 
-  it('chained promises should preserve continuation local storage', (done) => {
+  it('chained promises should preserve continuation local storage', () => {
     cls.enable();
     debugId('promise: START BEGIN');
     const startId = cls.currId;
@@ -346,7 +346,6 @@ describe('test continuation but enable hooks right before each test:', () => {
       })
       .then((val) => {
         cls.disable();
-        done();
         return val;
       })
       .catch((err) => {
@@ -355,7 +354,7 @@ describe('test continuation but enable hooks right before each test:', () => {
       });
   });
 
-  it('promise returned from promise executor function should preserve continuation local storage', (done) => {
+  it('promise returned from promise executor function should preserve continuation local storage', () => {
     cls.enable();
     debugId('promise: START BEGIN');
     const startId = cls.currId;
@@ -387,7 +386,7 @@ describe('test continuation but enable hooks right before each test:', () => {
       })
       .then((val) => {
         cls.disable();
-        done();
+        return val;
       });
   });
 
@@ -411,7 +410,7 @@ describe('test continuation with hooks enabled long before running these tests:'
     done();
   });
 
-  it('calling process.nextTick should preserve continuation local storage', async (done) => {
+  it('calling process.nextTick should preserve continuation local storage', (done) => {
     debugId('process.nextTick: START BEGIN');
     const startId = cls.currId;
     const startValue = 211;
@@ -452,7 +451,7 @@ describe('test continuation with hooks enabled long before running these tests:'
     });
   });
 
-  it('calling setImmediate should preserve continuation local storage', async (done) => {
+  it('calling setImmediate should preserve continuation local storage', (done) => {
     debugId('setImmediate: START BEGIN');
     const startId = cls.currId;
     const startValue = 221;
@@ -493,7 +492,7 @@ describe('test continuation with hooks enabled long before running these tests:'
     });
   });
 
-  it('calling setTimeout should preserve continuation local storage', async (done) => {
+  it('calling setTimeout should preserve continuation local storage', (done) => {
     debugId('setTimeout: START BEGIN');
     const startId = cls.currId;
     const startValue = 231;
@@ -534,7 +533,7 @@ describe('test continuation with hooks enabled long before running these tests:'
     }, 0);
   });
 
-  it('calling setInterval should preserve continuation local storage', async (done) => {
+  it('calling setInterval should preserve continuation local storage', (done) => {
     debugId('setInterval: START BEGIN');
     const startId = cls.currId;
     const startValue = 241;
@@ -577,7 +576,7 @@ describe('test continuation with hooks enabled long before running these tests:'
     }, 100);
   });
 
-  it('calling fs should preserve continuation local storage', async (done) => {
+  it('calling fs should preserve continuation local storage', (done) => {
     debugId('fs: START BEGIN');
     const startId = cls.currId;
     const startValue = 251;
@@ -624,7 +623,7 @@ describe('test continuation with hooks enabled long before running these tests:'
   // so the cls-context inside this executor function is the same as the
   // cls-context of the caller
 
-  it('chained promises should preserve continuation local storage', (done) => {
+  it('chained promises should preserve continuation local storage', () => {
     debugId('promise: START BEGIN');
     const startId = cls.currId;
     const startValue = 261;
@@ -705,7 +704,6 @@ describe('test continuation with hooks enabled long before running these tests:'
         });
       })
       .then((val) => {
-        done();
         return val;
       })
       .catch((err) => {
@@ -713,7 +711,7 @@ describe('test continuation with hooks enabled long before running these tests:'
       });
   });
 
-  it('promise returned from promise executor function should preserve continuation local storage', (done) => {
+  it('promise returned from promise executor function should preserve continuation local storage', () => {
     debugId('promise: START BEGIN');
     const startId = cls.currId;
     let outerId: number;
@@ -734,7 +732,6 @@ describe('test continuation with hooks enabled long before running these tests:'
           `inner id (${innerId}) is not the expected start id (${startId})`,
         );
         resolve2(42);
-        // done();
       }).then(() => {
         resolve1(24);
       }); // <= resolving is requried
@@ -743,7 +740,7 @@ describe('test continuation with hooks enabled long before running these tests:'
         fail(err);
       })
       .then((val) => {
-        done();
+        return val;
       });
   });
 

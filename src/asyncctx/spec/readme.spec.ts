@@ -20,7 +20,7 @@ function debugId(prefix: string): void {
 }
 
 describe('testing readme sample', () => {
-  it('should succeed', (done) => {
+  it('should succeed', () => {
     cls.enable();
     let cnt = 0;
     process.nextTick(() => {
@@ -40,13 +40,11 @@ describe('testing readme sample', () => {
           debugId('TICK 1.1.1 END');
           if (++cnt === 4) {
             cls.disable();
-            done();
           }
         });
         debugId('TICK 1.1.0 END  ');
         if (++cnt === 4) {
           cls.disable();
-          done();
         }
       });
       process.nextTick(() => {
@@ -56,13 +54,11 @@ describe('testing readme sample', () => {
         debugId('tick 1.2.0 END  ');
         if (++cnt === 4) {
           cls.disable();
-          done();
         }
       });
       debugId('TICK 1.0.0 END  ');
       if (++cnt === 4) {
         cls.disable();
-        done();
       }
     });
   });
