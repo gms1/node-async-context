@@ -4,6 +4,7 @@
 [![Dependency Status](https://david-dm.org/gms1/node-async-context.svg)](https://david-dm.org/gms1/node-async-context)
 [![Known Vulnerabilities](https://snyk.io/test/github/gms1/node-async-context/badge.svg)](https://snyk.io/test/github/gms1/node-async-context)
 
+![NPM](https://img.shields.io/npm/l/asyncctx)
 # node-async-context (asyncctx)
 
 This module allows you to create an asynchronous execution context for JavaScript or TypeScript
