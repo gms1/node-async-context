@@ -47,37 +47,39 @@ describe('test continuation but enable hooks right before each test:', () => {
     debugId('process.nextTick: START BEGIN');
     const startId = cls.currId;
     const startValue = 111;
-    expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setRootContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('process.nextTick: START END  ');
     process.nextTick(() => {
       debugId('process.nextTick: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('process.nextTick: OUTER END  ');
       process.nextTick(() => {
         debugId('process.nextTick: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('process.nextTick: INNER END  ');
         cls.disable();
         done();
@@ -90,37 +92,41 @@ describe('test continuation but enable hooks right before each test:', () => {
     debugId('setImmediate: START BEGIN');
     const startId = cls.currId;
     const startValue = 121;
-    expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setRootContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('setImmediate: START END  ');
     setImmediate(() => {
       debugId('setImmediate: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expec521ted start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(
+          `previous id (${outerPreviousId}) is not the expec521ted start id (${startId})`,
+        )
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('setImmediate: OUTER END  ');
       setImmediate(() => {
         debugId('setImmediate: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('setImmediate: INNER END  ');
         cls.disable();
         done();
@@ -133,37 +139,39 @@ describe('test continuation but enable hooks right before each test:', () => {
     debugId('setTimeout: START BEGIN');
     const startId = cls.currId;
     const startValue = 131;
-    expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setRootContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('setTimeout: START END  ');
     setTimeout(() => {
       debugId('setTimeout: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('setTimeout: OUTER END  ');
       setTimeout(() => {
         debugId('setTimeout: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('setTimeout: INNER END  ');
         cls.disable();
         done();
@@ -176,38 +184,40 @@ describe('test continuation but enable hooks right before each test:', () => {
     debugId('setInterval: START BEGIN');
     const startId = cls.currId;
     const startValue = 141;
-    expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setRootContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('setInterval: START END  ');
     const timer1 = setInterval(() => {
       debugId('setInterval: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('setInterval: OUTER END  ');
       clearInterval(timer1);
       const timer2 = setInterval(() => {
         debugId('setInterval: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('setInterval: INNER END  ');
         clearInterval(timer2);
         cls.disable();
@@ -221,37 +231,39 @@ describe('test continuation but enable hooks right before each test:', () => {
     debugId('fs: START BEGIN');
     const startId = cls.currId;
     const startValue = 151;
-    expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setRootContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('fs: START END  ');
     fs.access(__filename, () => {
       debugId('fs: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('fs: OUTER END  ');
       fs.access(__filename, () => {
         debugId('fs: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('fs: INNER END  ');
         cls.disable();
         done();
@@ -276,23 +288,25 @@ describe('test continuation but enable hooks right before each test:', () => {
     let innerValue: number;
     let innermostId: number;
     let innermostValue: number;
-    expect(cls.setRootContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setRootContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('promise: START END  ');
     return new Promise<number>((resolve, reject) => {
       debugId('promise: OUTER BEGIN');
       outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
 
       // The executor function is running synchronously!!!
-      expect(outerId).toBe(startId, `my id (${outerId}) is not the expected start id (${startId})`);
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerId)
+        .withContext(`my id (${outerId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       outerValue = startValue;
 
       debugId('promise: OUTER END  ');
@@ -304,19 +318,18 @@ describe('test continuation but enable hooks right before each test:', () => {
           debugId('promise: INNER BEGIN');
           innerId = cls.currId;
           const innerPreviousId = cls.getTriggerId();
-          expect(innerPreviousId).toBe(
-            outerId,
-            `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-          );
-          expect(cls.getContext()).toBe(
-            outerValue,
-            `inner value is not the expected outer value (${outerValue})`,
-          );
+          expect(innerPreviousId)
+            .withContext(
+              `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
+            )
+            .toBe(outerId);
+          expect(cls.getContext())
+            .withContext(`inner value is not the expected outer value (${outerValue})`)
+            .toBe(outerValue);
           innerValue = outerValue + 1;
-          expect(cls.setContext(innerValue)).toBe(
-            innerValue,
-            `inner value (${innerValue}) not set`,
-          );
+          expect(cls.setContext(innerValue))
+            .withContext(`inner value (${innerValue}) not set`)
+            .toBe(innerValue);
           debugId('promise: INNER END  ');
           resolve(innerValue);
         }).then((val2) => {
@@ -326,21 +339,19 @@ describe('test continuation but enable hooks right before each test:', () => {
             innermostId = cls.currId;
             const innermostPreviousId = cls.getTriggerId();
             // test https://github.com/nodejs/node/issues/13583
-            expect(innermostPreviousId).toBe(
-              innerId,
-              `previous id (${innermostPreviousId}) is not the
-                           expected inner id (${innerId})`,
-            );
-            expect(cls.getContext()).toBe(
-              innerValue,
-              `innermost value is not the expected inner value
-                           (${innerValue})`,
-            );
+            expect(innermostPreviousId)
+              .withContext(
+                `previous id (${innermostPreviousId}) is not the
+            expected inner id (${innerId})`,
+              )
+              .toBe(innerId);
+            expect(cls.getContext())
+              .withContext(`innermost value is not the expected inner value (${innerValue})`)
+              .toBe(innerValue);
             innermostValue = innerValue + 1;
-            expect(cls.setContext(innermostValue)).toBe(
-              innermostValue,
-              `innermost value (${innermostValue}) not set`,
-            );
+            expect(cls.setContext(innermostValue))
+              .withContext(`innermost value (${innermostValue}) not set`)
+              .toBe(innermostValue);
             debugId('promise: INNERMOST END  ');
             resolve(innermostValue);
           });
@@ -366,17 +377,15 @@ describe('test continuation but enable hooks right before each test:', () => {
     return new Promise<number>((resolve1, reject1) => {
       debugId('promise: OUTER BEGIN');
       outerId = cls.currId;
-      expect(outerId).toBe(
-        startId,
-        `outer id (${outerId}) is not the expected start id (${startId})`,
-      );
+      expect(outerId)
+        .withContext(`outer id (${outerId}) is not the expected start id (${startId})`)
+        .toBe(startId);
       return new Promise<number>((resolve2, reject2) => {
         debugId('promise: INNER BEGIN');
         innerId = cls.currId;
-        expect(innerId).toBe(
-          startId,
-          `inner id (${innerId}) is not the expected start id (${startId})`,
-        );
+        expect(innerId)
+          .withContext(`inner id (${innerId}) is not the expected start id (${startId})`)
+          .toBe(startId);
         resolve2(42);
       }).then(() => {
         resolve1(24);
@@ -397,7 +406,9 @@ describe('test continuation but enable hooks right before each test:', () => {
     setImmediate(() => {
       setImmediate(() => {
         const length = triggerHookLength();
-        expect(length).toBe(1, `triggerHook length (${length}) is not the expected length (1)`);
+        expect(length)
+          .withContext(`triggerHook length (${length}) is not the expected length (1)`)
+          .toBe(1);
         done();
       });
     });
@@ -416,37 +427,39 @@ describe('test continuation with hooks enabled long before running these tests:'
     debugId('process.nextTick: START BEGIN');
     const startId = cls.currId;
     const startValue = 211;
-    expect(cls.setContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('process.nextTick: START END  ');
     process.nextTick(() => {
       debugId('process.nextTick: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('process.nextTick: OUTER END  ');
       process.nextTick(() => {
         debugId('process.nextTick: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('process.nextTick: INNER END  ');
         done();
       });
@@ -457,37 +470,39 @@ describe('test continuation with hooks enabled long before running these tests:'
     debugId('setImmediate: START BEGIN');
     const startId = cls.currId;
     const startValue = 221;
-    expect(cls.setContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('setImmediate: START END  ');
     setImmediate(() => {
       debugId('setImmediate: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('setImmediate: OUTER END  ');
       setImmediate(() => {
         debugId('setImmediate: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('setImmediate: INNER END  ');
         done();
       });
@@ -498,37 +513,39 @@ describe('test continuation with hooks enabled long before running these tests:'
     debugId('setTimeout: START BEGIN');
     const startId = cls.currId;
     const startValue = 231;
-    expect(cls.setContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('setTimeout: START END  ');
     setTimeout(() => {
       debugId('setTimeout: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('setTimeout: OUTER END  ');
       setTimeout(() => {
         debugId('setTimeout: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('setTimeout: INNER END  ');
         done();
       }, 0);
@@ -539,38 +556,40 @@ describe('test continuation with hooks enabled long before running these tests:'
     debugId('setInterval: START BEGIN');
     const startId = cls.currId;
     const startValue = 241;
-    expect(cls.setContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('setInterval: START END  ');
     const timer1 = setInterval(() => {
       debugId('setInterval: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('setInterval: OUTER END  ');
       clearInterval(timer1);
       const timer2 = setInterval(() => {
         debugId('setInterval: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('setInterval: INNER END  ');
         clearInterval(timer2);
         done();
@@ -582,37 +601,39 @@ describe('test continuation with hooks enabled long before running these tests:'
     debugId('fs: START BEGIN');
     const startId = cls.currId;
     const startValue = 251;
-    expect(cls.setContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('fs: START END  ');
     fs.access(__filename, () => {
       debugId('fs: OUTER BEGIN');
       const outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(outerPreviousId).toBe(
-        startId,
-        `previous id (${outerPreviousId}) is not the expected start id (${startId})`,
-      );
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerPreviousId)
+        .withContext(`previous id (${outerPreviousId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       const outerValue = startValue + 1;
-      expect(cls.setContext(outerValue)).toBe(outerValue, `outer value (${outerValue}) not set`);
+      expect(cls.setContext(outerValue))
+        .withContext(`outer value (${outerValue}) not set`)
+        .toBe(outerValue);
       debugId('fs: OUTER END  ');
       fs.access(__filename, () => {
         debugId('fs: INNER BEGIN');
         const innerId = cls.currId;
         const innerPreviousId = cls.getTriggerId();
-        expect(innerPreviousId).toBe(
-          outerId,
-          `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-        );
-        expect(cls.getContext()).toBe(
-          outerValue,
-          `inner value is not the expected outer value (${outerValue})`,
-        );
+        expect(innerPreviousId)
+          .withContext(`previous id (${innerPreviousId}) is not the expected outer id (${outerId})`)
+          .toBe(outerId);
+        expect(cls.getContext())
+          .withContext(`inner value is not the expected outer value (${outerValue})`)
+          .toBe(outerValue);
         const innerValue = outerValue + 1;
-        expect(cls.setContext(innerValue)).toBe(innerValue, `inner value (${innerValue}) not set`);
+        expect(cls.setContext(innerValue))
+          .withContext(`inner value (${innerValue}) not set`)
+          .toBe(innerValue);
         debugId('fs: INNER END  ');
         done();
       });
@@ -635,23 +656,25 @@ describe('test continuation with hooks enabled long before running these tests:'
     let innerValue: number;
     let innermostId: number;
     let innermostValue: number;
-    expect(cls.setContext(startValue)).toBe(startValue, `start value (${startValue}) not set`);
+    expect(cls.setContext(startValue))
+      .withContext(`start value (${startValue}) not set`)
+      .toBe(startValue);
     debugId('promise: START END  ');
     return new Promise<number>((resolve, reject) => {
       debugId('promise: OUTER BEGIN');
       outerId = cls.currId;
       const outerPreviousId = cls.getTriggerId();
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
 
       // The executor function is running synchronously!!!
-      expect(outerId).toBe(startId, `my id (${outerId}) is not the expected start id (${startId})`);
-      expect(cls.getContext()).toBe(
-        startValue,
-        `outer value is not the expected start value (${startValue})`,
-      );
+      expect(outerId)
+        .withContext(`my id (${outerId}) is not the expected start id (${startId})`)
+        .toBe(startId);
+      expect(cls.getContext())
+        .withContext(`outer value is not the expected start value (${startValue})`)
+        .toBe(startValue);
       outerValue = startValue;
 
       debugId('promise: OUTER END  ');
@@ -663,19 +686,18 @@ describe('test continuation with hooks enabled long before running these tests:'
           debugId('promise: INNER BEGIN');
           innerId = cls.currId;
           const innerPreviousId = cls.getTriggerId();
-          expect(innerPreviousId).toBe(
-            outerId,
-            `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
-          );
-          expect(cls.getContext()).toBe(
-            outerValue,
-            `inner value is not the expected outer value (${outerValue})`,
-          );
+          expect(innerPreviousId)
+            .withContext(
+              `previous id (${innerPreviousId}) is not the expected outer id (${outerId})`,
+            )
+            .toBe(outerId);
+          expect(cls.getContext())
+            .withContext(`inner value is not the expected outer value (${outerValue})`)
+            .toBe(outerValue);
           innerValue = outerValue + 1;
-          expect(cls.setContext(innerValue)).toBe(
-            innerValue,
-            `inner value (${innerValue}) not set`,
-          );
+          expect(cls.setContext(innerValue))
+            .withContext(`inner value (${innerValue}) not set`)
+            .toBe(innerValue);
           debugId('promise: INNER END  ');
           resolve(innerValue);
         }).then((val2) => {
@@ -685,21 +707,18 @@ describe('test continuation with hooks enabled long before running these tests:'
             innermostId = cls.currId;
             const innermostPreviousId = cls.getTriggerId();
             // test: https://github.com/nodejs/node/issues/13583
-            expect(innermostPreviousId).toBe(
-              innerId,
-              `previous id (${innermostPreviousId}) is not the
-                           expected inner id (${innerId})`,
-            );
-            expect(cls.getContext()).toBe(
-              innerValue,
-              `innermost value is not the expected inner value
-                           (${innerValue})`,
-            );
+            expect(innermostPreviousId)
+              .withContext(
+                `previous id (${innermostPreviousId}) is not the expected inner id (${innerId})`,
+              )
+              .toBe(innerId);
+            expect(cls.getContext())
+              .withContext(`innermost value is not the expected inner value (${innerValue})`)
+              .toBe(innerValue);
             innermostValue = innerValue + 1;
-            expect(cls.setContext(innermostValue)).toBe(
-              innermostValue,
-              `innermost value (${innermostValue}) not set`,
-            );
+            expect(cls.setContext(innermostValue))
+              .withContext(`innermost value (${innermostValue}) not set`)
+              .toBe(innermostValue);
             debugId('promise: INNERMOST END  ');
             resolve(innermostValue);
           });
@@ -722,17 +741,15 @@ describe('test continuation with hooks enabled long before running these tests:'
     return new Promise<number>((resolve1, reject1) => {
       debugId('promise: OUTER BEGIN');
       outerId = cls.currId;
-      expect(outerId).toBe(
-        startId,
-        `outer id (${outerId}) is not the expected start id (${startId})`,
-      );
+      expect(outerId)
+        .withContext(`outer id (${outerId}) is not the expected start id (${startId})`)
+        .toBe(startId);
       return new Promise<number>((resolve2, reject2) => {
         debugId('promise: INNER BEGIN');
         innerId = cls.currId;
-        expect(innerId).toBe(
-          startId,
-          `inner id (${innerId}) is not the expected start id (${startId})`,
-        );
+        expect(innerId)
+          .withContext(`inner id (${innerId}) is not the expected start id (${startId})`)
+          .toBe(startId);
         resolve2(42);
       }).then(() => {
         resolve1(24);
@@ -750,7 +767,9 @@ describe('test continuation with hooks enabled long before running these tests:'
     setImmediate(() => {
       setImmediate(() => {
         const length = triggerHookLength();
-        expect(length).toBe(1, `triggerHook length (${length}) is not the expected length (1)`);
+        expect(length)
+          .withContext(`triggerHook length (${length}) is not the expected length (1)`)
+          .toBe(1);
         done();
       });
     });
