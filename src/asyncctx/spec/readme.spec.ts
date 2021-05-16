@@ -1,4 +1,4 @@
-// tslint:disable prefer-const
+/* eslint-disable prefer-const */
 import { ContinuationLocalStorage } from '../ContinuationLocalStorage';
 
 class MyLocalStorage {

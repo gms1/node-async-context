@@ -1,8 +1,5 @@
-// tslint:disable no-null-keyword
-// tslint:disable no-require-imports no-var-requires
-
-// tslint:disable-next-line no-implicit-dependencies
-const asyncHooks = require('async_hooks');
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import asyncHooks = require('async_hooks');
 
 interface HookFuncs {
   init(id: number, type: string, triggerId: number): void;
@@ -236,6 +233,7 @@ export class ContinuationLocalStorage<T> {
             } else {
               data = JSON.stringify(hi.data);
             }
+            // eslint-disable-next-line no-empty
           } catch (_ignore) {}
         }
       }
@@ -292,7 +290,5 @@ export class ContinuationLocalStorage<T> {
       return hi;
     }
     return this.findActivatedNode(hi.triggerHook as HookInfo<T>);
-    // TODO: prettier adds this unusual semicolon
-    // tslint:disable-next-line semicolon
   };
 }
