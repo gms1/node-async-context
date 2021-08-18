@@ -89,6 +89,7 @@ export class ContinuationLocalStorage<T> {
         if (hi) {
           if (!hi.activated) {
             const ancestor = this.findActivatedNode(hi.triggerHook as HookInfo<T>);
+            /* istanbul ignore else */
             if (ancestor) {
               hi.triggerHook = ancestor;
               hi.triggerId = ancestor.id;
