@@ -11,7 +11,24 @@ This module allows you to create an asynchronous execution context for JavaScrip
 
 > NOTE: This module is based on [async_hooks](https://github.com/nodejs/node/blob/master/doc/api/async_hooks.md) an experimental built-in node.js module introduced in v8.0.0
 
-> NOTE: Your contribution is highly welcome!
+## Deprecation
+<!-- -->
+> NOTE: This module is now deprecated in favour of [AsyncLocalStorage](https://nodejs.org/api/async_context.html#async_context_new_asynclocalstorage)
+> which is available for nodejs >= 12
+
+### quick start using AsyncLocalStorage
+
+```Typescript
+ class ContinuationLocalStorage<T> extends AsyncLocalStorage<T> {
+   public getContext(): T | undefined {
+      return this.getStore();
+    }
+    public setContext(value: T): T {
+      this.enterWith(value);
+      return value;
+    }
+  }
+```
 
 ## Introduction
 
@@ -52,6 +69,7 @@ process.nextTick(() => {
 
 | Release   | Notes                                                                                   |
 | --------- | --------------------------------------------------------------------------------------- |
+| 2.0.18    | deprecated in favour of AsyncLocalStorage                                               |
 | 2.0.12-17 | maintenance release, nodejs 14 support                                                  |
 | 2.0.11    | #54: fixed memory leak for chaining asynchronous calls infinitely; thanks to Reko Tiira |
 | 2.0.10    | maintenance release                                                                     |

@@ -28,11 +28,19 @@ interface HookInfo<T> {
 }
 
 /**
+ * @deprecated deprecated in favour of AsyncLocalStorage
  *
- *
- * @export
- * @class ContinuationLocalStorage
- * @template T
+ * please see https://nodejs.org/api/async_context.html#async_context_new_asynclocalstorage
+ * @example
+ * class ContinuationLocalStorage<T> extends AsyncLocalStorage<T> {
+ *   public getContext(): T | undefined {
+ *     return this.getStore();
+ *   }
+ *   public setContext(value: T): T {
+ *     this.enterWith(value);
+ *     return value;
+ *   }
+ * }
  */
 export class ContinuationLocalStorage<T> {
   private _currId!: number;
