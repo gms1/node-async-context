@@ -21,6 +21,18 @@ jobs:
         with:
           node-version: "${{ matrix.node-version }}"
       - uses: actions/checkout@v2
-      - run: bash build/travis_install
-      - run: make
-      - run: "npm run coverage:codecov"
+      - name: "Install dependencies"
+        run: "npm ci"
+      - name: "Build package"
+        run: "npm run release:build"
+      - name: "Coverage Report"
+        run: |
+          npm run coverage:report
+          npm run coverage:html
+          npm run coverage:codecov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: ./coverage/
+          fail_ci_if_error: true
+          verbose: true
